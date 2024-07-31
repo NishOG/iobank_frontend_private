@@ -1,24 +1,10 @@
 import './App.css';
+import Login from './pages/Login';
 
 function App() {
   return (
-   <main>
-    <h1>Welcome to IO Bank</h1>
-    <p>
-      This is a simple banking application built with React.
-    </p>
-    <p>
-      You can create accounts, deposit and withdraw funds, and check your balance.
-    </p>
-    <p>
-      Made by <a href="https://github.com/Andrew-Harris">Andrew Harris</a>
-    </p>
-    <p>
-      <a href="https://github.com/Andrew-Harris/io_bank">View on GitHub</a>
-    </p>
-    <div className="App-footer">
-      <p>© 2021 IO Bank</p>
-    </div>
+   <main className="font-roboto flex flex-col w-screen sm:w-full lg:w-screen md:w-screen h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 ">
+    <Login />
    </main>
   );
 }
