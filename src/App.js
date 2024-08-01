@@ -1,12 +1,10 @@
 import './App.css';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
-   <main className="font-roboto">
-    <Home />
+   <main className="font-roboto lg:ml-250">
+    <Dashboard />
    </main>
   );
 }
