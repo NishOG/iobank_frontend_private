@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import NavBar from '../components/NavBar'
 import Home from './dashboard/Home'
+import Account from './dashboard/Account'
 
 const Dashboard = () => {
   return (
@@ -9,7 +10,7 @@ const Dashboard = () => {
         <NavBar />
         <Header />
         <section className='relative flex-1 pt-12 p-6'>
-          <Home />
+          <Account />
         </section>
     </main>
   )
