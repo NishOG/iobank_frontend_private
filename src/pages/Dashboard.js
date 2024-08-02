@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar'
 import Transaction from './dashboard/Transaction'
 import Home from './dashboard/Home'
 import Account from './dashboard/Account'
+import Card from './dashboard/Card'
 
 const Dashboard = () => {
   return (
@@ -11,7 +12,7 @@ const Dashboard = () => {
         <NavBar />
         <Header />
         <section className='relative flex-1 pt-12 p-2 sm:p-6 w-full sm:mt-6'>
-          <Account />
+          <Card />
         </section>
     </main>
   )

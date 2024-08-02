@@ -36,37 +36,37 @@ const Account = () => {
       <section id='account-details-section' className='w-full flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl'>
         <p className='font-bold text-gray-600 text-sm'>Your USD Account Informations</p>
         <div className='flex flex-col sm:flex-row  sm:flex-wrap'>
-          <div className='min-w-200 flex flex-col gap-4 p-6 w-1/3'>
+          <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Account Holder's Name</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
                 <p>Isaiah Osarobo</p>
               </div>
           </div>
-          <div className='min-w-200 flex flex-col gap-4 p-6 w-1/3'>
+          <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Account Number</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
                 <p>8888888888</p>
               </div>
           </div>
-          <div className='min-w-200 flex flex-col gap-4 p-6 w-1/3'>
+          <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Bank Name</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
                 <p>IO BANK</p>
               </div>
           </div>
-          <div className='min-w-200 flex flex-col gap-4 p-6 w-1/3'>
+          <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Account Type</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
                 <p>Savings</p>
               </div>
           </div>
-          <div className='min-w-200 flex flex-col gap-4 p-6 w-1/3'>
+          <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Bank Address</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
                 <p>8, Dexter Avenue P.O Box 10035</p>
               </div>
           </div>
-          <div className='min-w-200 flex flex-col gap-4 p-6 w-1/3'>
+          <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Currency Type</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
                 <p>USD</p>
