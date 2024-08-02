@@ -7,6 +7,8 @@ import Account from './dashboard/Account'
 import Card from './dashboard/Card'
 import { Route, Routes } from 'react-router-dom'
 import Payment from './dashboard/Payment'
+import Settings from './dashboard/Settings'
+import Profile from './dashboard/Profile'
 
 const Dashboard = () => {
   return (
@@ -21,6 +23,8 @@ const Dashboard = () => {
               <Route path='/payments' element={<Payment />}/>
               <Route path='/transactions' element={<Transaction />}/>
               <Route path='/cards' element={<Card />}/>
+              <Route path='/settings' element={<Settings />}/>
+              <Route path='/profile' element={<Profile />}/>
             </Routes>
           </section>
       </section>
