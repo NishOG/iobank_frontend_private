@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaSmile, FaBars, FaArrowRight, FaArrowLeft, FaExchangeAlt } from 'react-icons/fa'
+import { FaSmile, FaBars, FaExchangeAlt } from 'react-icons/fa'
 import { MdNotifications, MdSettings } from 'react-icons/md'
 
 const Header = () => {

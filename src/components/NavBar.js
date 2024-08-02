@@ -1,8 +1,22 @@
 import React from 'react'
-import { FaApplePay, FaCreditCard, FaHome, FaLandmark, FaPiggyBank, FaUser, FaWallet } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+import { FaApplePay, FaCreditCard, FaFileInvoiceDollar, FaHome, FaLandmark, FaPiggyBank, FaUser, FaWallet } from 'react-icons/fa'
 import { MdPayment, MdSettings } from 'react-icons/md'
 
 const NavBar = () => {
+  const navigate = useNavigate()
+  const handleClick = (path) => {
+    navigate(path)
+  }
+  const pages = [
+    { path: '/dashboard/', icon: <FaLandmark />, label: 'Home' },
+    { path: '/dashboard/accounts', icon: <FaWallet />, label: 'Accounts' },
+    { path: '/dashboard/payments', icon: <FaApplePay />, label: 'Payments' },
+    { path: '/dashboard/transactions', icon: <FaFileInvoiceDollar />, label: 'Transactions' },
+    { path: '/dashboard/cards', icon: <FaCreditCard />, label: 'Card' },
+    { path: '/dashboard/settings', icon: <MdSettings />, label: 'Settings' },
+    { path: '/dashboard/profile', icon: <FaUser />, label: 'Profile' }
+  ]
   return (
     <nav className='hidden fixed top-0 left-0 bottom-0 z-2 bg-white lg:flex flex-col w-250 border-l-2 gap-2 items-start border-r border-gray-300 shadow-xl'>
       <h1 className='text-xl font-bold w-full flex gap-2 items-center p-5 border-b border-gray-300 shadow-sm'>
@@ -10,13 +24,9 @@ const NavBar = () => {
             IO-BANK
       </h1>
       <ul className='w-full text-gray-600'>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><FaLandmark />Home</button></li>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><FaWallet />Accounts</button></li>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><FaApplePay /> Payments</button></li>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><FaCreditCard /> Card</button></li>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><MdPayment />Transactions</button></li>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><MdSettings />Settings</button></li>
-        <li className='p-1'><button className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'><FaUser />Profile</button></li>
+        {pages.map((page, id) => <li key={id} className='p-1'>
+          <button onClick={() => handleClick(page.path)} className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'>{page.icon}{page.label}</button>
+        </li>)}
       </ul>
     </nav>
   )
