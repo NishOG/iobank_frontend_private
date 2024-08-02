@@ -1,11 +1,20 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FaApplePay, FaCreditCard, FaFileInvoiceDollar, FaHome, FaLandmark, FaPiggyBank, FaUser, FaWallet } from 'react-icons/fa'
-import { MdPayment, MdSettings } from 'react-icons/md'
+import { MdSettings } from 'react-icons/md'
+
 
 const NavBar = () => {
+  const location = useLocation()
+  const [currentPage, setCurrentPage] = useState('home')
+  const currentPageStyle = 'bg-blue-400 text-white'
   const navigate = useNavigate()
   const handleClick = (path) => {
+    if(path.endsWith('/dashboard/')) {
+      setCurrentPage('home')
+    } else {
+      setCurrentPage(path.split('/')[2])
+    }
     navigate(path)
   }
   const pages = [
@@ -25,7 +34,7 @@ const NavBar = () => {
       </h1>
       <ul className='w-full text-gray-600'>
         {pages.map((page, id) => <li key={id} className='p-1'>
-          <button onClick={() => handleClick(page.path)} className='rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full'>{page.icon}{page.label}</button>
+          <button onClick={() => handleClick(page.path)} className={`rounded-md flex gap-2 items-center p-4 pt-2 pb-2 hover:bg-blue-400 hover:text-white w-full ${currentPage.startsWith(page.label.toLocaleLowerCase()) || currentPage.endsWith("/") ?  currentPageStyle : ''}`}>{page.icon}{page.label}</button>
         </li>)}
       </ul>
     </nav>

@@ -1,14 +1,14 @@
 import React from 'react'
 import { FaExchangeAlt, FaPiggyBank, FaPlus } from 'react-icons/fa'
 import Transaction from './Transaction'
-import creditCard from '../../credit_card.png'
+import creditCard from '../../img/credit_card.png'
 import { MdDelete } from 'react-icons/md'
 
 const Card = () => {
   return (
     <>
       
-      <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-transparent rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center'>
+      <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-transparent rounded-xl mt-12 p-6 gap-2 shadow-xl overflow-x-auto items-center'>
         <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
           <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2 relative'>
             <img src={creditCard} />
