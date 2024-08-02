@@ -1,8 +1,14 @@
 import React from 'react'
 import { FaCreditCard, FaExchangeAlt, FaFileInvoiceDollar, FaMoneyBill, FaPlus } from 'react-icons/fa'
 import Transaction from './Transaction'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Account = () => {
+  const navigate = useNavigate()
+  const { currency } = useParams()
+  const navigateCurrency = (currencyType) => {
+    navigate(`/dashboard/accounts?currency=${currencyType}`)
+  }
   return (
     <>
       <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center'>
@@ -13,7 +19,7 @@ const Account = () => {
         
         <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
           <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2'>
-            <button className='p-2 rounded-lg pt-2 pb-2 hover:bg-white'>USD</button>
+            <button className='p-2 rounded-lg pt-2 pb-2 hover:bg-white' onClick={() => navigateCurrency('USD')}>USD</button>
             <button className='p-2 rounded-lg pt-2 pb-2 hover:bg-white'>GPB</button>
             <button className='p-2 rounded-lg pt-2 pb-2 hover:bg-white'>NGN</button>
             <button className='p-2 rounded-lg pt-2 pb-2 hover:bg-white'>EURO</button>
