@@ -24,6 +24,7 @@ module.exports = {
         '400': '400px',
         '250': '250px',
         '200': '200px'
+        
       }, 
       margin: {
         '500': '500px',
@@ -49,8 +50,12 @@ module.exports = {
         '250': '250px',
         '200': '200px'
       },
+      colors: {
+        'golden': '#ffbf56'
+      }
     },
   },
+
   plugins: [],
 }
 
