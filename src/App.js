@@ -1,11 +1,27 @@
 import './App.css';
 import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: '/dashboard/*',
+      element: <Dashboard />
+    }, 
+    {
+      path: '/login',
+      element: <Login />
+    },
+    {
+      path: '/signup',
+      element: <Register />
+    }
+  ]); // Added closing bracket and colon here
   return (
-   <main className="font-roboto lg:ml-250">
-    <Dashboard />
-   </main>
+    <RouterProvider router={router}>
+    </RouterProvider>
   );
 }
 

@@ -4,9 +4,9 @@ import { FaChevronRight, FaMehBlank, FaPiggyBank} from 'react-icons/fa';
 const Register = () => {
   // Todo implementation of controlled Input and register logic
   return (
-    <main className="font-roboto flex flex-col w-screen sm:w-full lg:w-screen md:w-screen min-h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 ">
+    <main className="font-roboto flex flex-col w-screen sm:w-full min-h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 ">
 
-      <section className='flex flex-col w-full p-3 w-3/5 pt-6 pb-6 gap-8 justify-center items-center sm:w-3/5 xl:w-2/5 sm:p-6'>
+      <section className='overflow-x-hidden flex flex-col w-full p-3 w-3/5 pt-6 pb-6 gap-8 justify-center items-center sm:w-3/5 xl:w-2/5 sm:p-6'>
           <h1 className='text-xl font-bold flex flex-col items-center'>
             <FaPiggyBank size={40}/>
             IO-BANK</h1>
