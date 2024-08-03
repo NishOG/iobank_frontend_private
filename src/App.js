@@ -1,11 +1,18 @@
+import { Provider } from 'react-redux';
 import './App.css';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { store } from './app/store';
+import Redirect from './pages/Redirect';
 
 function App() {
   const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Redirect />
+    },
     {
       path: '/dashboard/*',
       element: <Dashboard />
@@ -20,8 +27,10 @@ function App() {
     }
   ]); // Added closing bracket and colon here
   return (
-    <RouterProvider router={router}>
-    </RouterProvider>
+    <Provider store={store}>
+      <RouterProvider router={router}>
+      </RouterProvider>
+    </Provider>
   );
 }
 

@@ -9,7 +9,7 @@ const Header = () => {
         <div className='flex items-center'>
             <button className='lg:hidden'><FaBars size={25} /></button>
             <div className='hidden lg:flex gap-5'>
-              <button className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out'>
+              <button className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out gap-1'>
                 <span>
                   <FaExchangeAlt />
                 </span>

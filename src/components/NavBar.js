@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FaApplePay, FaCreditCard, FaFileInvoiceDollar, FaHome, FaLandmark, FaPiggyBank, FaUser, FaWallet } from 'react-icons/fa'
 import { MdSettings } from 'react-icons/md'
 
-
+ 
 const NavBar = () => {
   const location = useLocation()
-  const [currentPage, setCurrentPage] = useState('home')
+  const [currentPage, setCurrentPage] = useState(location.pathname.split('/')[2] || 'home')
   const currentPageStyle = 'bg-blue-400 text-white'
   const navigate = useNavigate()
   const handleClick = (path) => {
-    if(path.endsWith('/dashboard/')) {
+    if(path.endsWith('/dashboard')) {
       setCurrentPage('home')
     } else {
       setCurrentPage(path.split('/')[2])
     }
     navigate(path)
   }
+  useEffect(() => {
+    setCurrentPage(location.pathname.split('/')[2] || 'home')
+  }, [currentPage, location])
   const pages = [
-    { path: '/dashboard/', icon: <FaLandmark />, label: 'Home' },
+    { path: '/dashboard', icon: <FaLandmark />, label: 'Home' },
     { path: '/dashboard/accounts', icon: <FaWallet />, label: 'Accounts' },
     { path: '/dashboard/payments', icon: <FaApplePay />, label: 'Payments' },
     { path: '/dashboard/transactions', icon: <FaFileInvoiceDollar />, label: 'Transactions' },
