@@ -33,7 +33,7 @@ const Account = () => {
           </div>
         </div>
         <div className='flex flex-col items-center object-cover gap-5 justify-center'>
-          <img src='https://flagcdn.com/w320/us.png' className='w-30 h-10 rounded-md'/>
+          <img src={currentAccount.flag} className='w-30 h-10 rounded-md'/>
           <p className='text-2xl font-bold text-gray-400'>Available Balance</p>
           <p className='text-3xl font-bold text-gray-600 p-2'>{`${currentAccount.symbol} ${currentAccount.balance}`}</p>
         </div>
