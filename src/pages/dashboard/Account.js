@@ -4,6 +4,7 @@ import Transaction from './Transaction'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { accounts } from '../../features/accounts/accountSlice'
 import { useSelector } from 'react-redux'
+import NewAccount from '../../components/NewAccount'
 
 const Account = () => {
   const location = useLocation()
@@ -16,15 +17,19 @@ const Account = () => {
   const navigateCurrency = (currencyType) => {
     navigate(`/dashboard/accounts?currency=${currencyType}`)
   }
+  const [showForm, setShowForm] = useState(false)
   useEffect(() => {
     setCurrentAccount(accountList.filter((acc) => acc.currencyType == currency)[0])
   }, [currency])
+  const currentPageStyle = showForm ? 'hidden' : 'flex';
   return (
-    <>
-      <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center'>
+    <section>
+      {showForm && <NewAccount setShowForm={setShowForm}/>}
+      <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center`}>
+        
         <div className='w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <p className='font-bold text-gray-600 text-sm'>Balances(4)</p>
-          <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out'><FaPlus /><span>Create New Account</span></button>
+          <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out' onClick={() => setShowForm(true)}><FaPlus /><span>Create New Account</span></button>
         </div>
         
         <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
@@ -46,7 +51,7 @@ const Account = () => {
       </section>
 
 
-      <section id='account-details-section' className='w-full flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl'>
+      <section id='account-details-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl`}>
         <p className='font-bold text-gray-600 text-sm'>Your {currentAccount.currencyType} Account Informations</p>
         <div className='flex flex-col sm:flex-row  sm:flex-wrap'>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
@@ -87,8 +92,8 @@ const Account = () => {
           </div>
         </div>
       </section>
-      <Transaction />
-    </>
+      <section className={`${currentPageStyle} sm:flex`}><Transaction /></section>
+    </section>
   )
 }
 

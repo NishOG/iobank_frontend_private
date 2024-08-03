@@ -52,7 +52,7 @@ const Register = () => {
                     <input placeholder='Comfirm your password' type="text" id="confirm-password" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
                 </div>
               </div>
-              <button type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Create Account</button>
+              <button type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>SIGN UP</button>
           </form>
           <p>Have an account? <a href='/signup' className='underline text-blue-500'>Login</a></p>
       </section>

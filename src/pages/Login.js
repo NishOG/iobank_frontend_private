@@ -23,7 +23,7 @@ const Login = () => {
               </div>
               
               <a className='underline text-blue-500 flex items-center' href='/'>Forgot Password <FaChevronRight /></a>
-              <button type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Login</button>
+              <button type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>LOGIN</button>
           </form>
           <p>Don't have an account? <a href='/signup' className='underline text-blue-500'>Create One</a></p>
       </section>

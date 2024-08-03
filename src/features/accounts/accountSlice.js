@@ -33,3 +33,4 @@ export const { addAccount, addTransaction } = accounsSlice.actions;
 
 export default accounsSlice.reducer;
 export const accounts = state => state.accounts.accounts
+export const ownerAccountsTypes = state => state.accounts.accounts.map(account => (account.currencyType))
