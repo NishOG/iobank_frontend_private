@@ -11,13 +11,13 @@ const Card = () => {
       <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-transparent rounded-xl mt-12 p-6 gap-2 shadow-xl overflow-x-auto items-center'>
         <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
           <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2 relative'>
-            <img src={creditCard} />
-            <div className='absolute mt-3 top-12 right-7 p-2 text-sm text-golden flex'>
-                <div className='w-5 h-5 rounded-xl bg-red-500'></div>
-                <div className='w-5 h-5 rounded-xl bg-golden ml-[-8px] opacity-70'></div>
+            <img src={creditCard} className='sm:w-400' />
+            <div className='absolute mt-3 sm:mt-12 top-12 right-7 p-2 text-sm text-golden flex'>
+                <div className='w-5 h-5 rounded-xl sm:w-8 sm:h-8 sm:rounded-2xl bg-red-500'></div>
+                <div className='w-5 h-5 rounded-xl sm:w-8 sm:h-8 sm:rounded-2xl bg-golden ml-[-8px] sm:ml-[-12px] opacity-70'></div>
             </div>
-            <p className='absolute bottom-5 right-7 p-2 text-sm text-golden'>Isaiah Osarobo</p>
-            <p className='absolute bottom-5 left-7 p-2 text-sm text-golden'>$25.<span className='text-[9px]'>50</span></p>
+            <p className='absolute bottom-5 sm:bottom-8 right-7 sm:right-7 p-2 text-sm text-golden'>Isaiah Osarobo</p>
+            <p className='absolute bottom-5 sm:bottom-8 left-7 sm:left-12 p-2 text-sm text-golden'>$25.<span className='text-[9px]'>50</span></p>
           </div>
         </div>
         
