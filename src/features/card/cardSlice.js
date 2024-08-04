@@ -8,7 +8,7 @@ import { createSlice } from "@reduxjs/toolkit";
         cardHolder: "Isaiah Osarobo",
         bankName: 'IO BANK',
         symbol: '$', 
-        cardNumber: 8809832985901802,
+        cardNumber: 880983298590182,
         cardType: 'MasterCard',
         expirationDate: '09/25',
         cvv: 123,
@@ -21,9 +21,9 @@ import { createSlice } from "@reduxjs/toolkit";
     transactions: [],
 };
 
-export const cardSlicer = createSlice(
+export const cardSlice = createSlice(
     {
-        name: 'cards',
+        name: 'card',
         initialState,
         reducers: {
             addTransaction: (state, action) => {
@@ -36,8 +36,8 @@ export const cardSlicer = createSlice(
     }
 )
 
-export const { addTransaction, createCard } = cardSlicer.actions;
+export const { addTransaction, createCard } = cardSlice.actions;
 
-export default cardSlicer.reducer;
+export default cardSlice.reducer;
 
-export const card = state => state.cards.card;
+export const card = state => state.card.card;

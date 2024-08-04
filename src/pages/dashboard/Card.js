@@ -1,13 +1,15 @@
 import React from 'react'
-import { FaExchangeAlt, FaPiggyBank, FaPlus } from 'react-icons/fa'
+import { FaExchangeAlt, FaPlus } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 import Transaction from './Transaction'
 import creditCard from '../../img/credit_card.png'
 import { MdDelete } from 'react-icons/md'
+import { card } from '../../features/card/cardSlice'
 
 const Card = () => {
+  const userCard = useSelector(card)
   return (
     <>
-      
       <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-transparent rounded-xl mt-12 p-6 gap-2 shadow-xl overflow-x-auto items-center'>
         <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
           <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2 relative'>
@@ -16,8 +18,8 @@ const Card = () => {
                 <div className='w-5 h-5 rounded-xl sm:w-8 sm:h-8 sm:rounded-2xl bg-red-500'></div>
                 <div className='w-5 h-5 rounded-xl sm:w-8 sm:h-8 sm:rounded-2xl bg-golden ml-[-8px] sm:ml-[-12px] opacity-70'></div>
             </div>
-            <p className='absolute bottom-5 sm:bottom-8 right-7 sm:right-7 p-2 text-sm text-golden'>Isaiah Osarobo</p>
-            <p className='absolute bottom-5 sm:bottom-8 left-7 sm:left-12 p-2 text-sm text-golden'>$25.<span className='text-[9px]'>50</span></p>
+            <p className='absolute bottom-5 sm:bottom-8 right-7 sm:right-7 p-2 text-sm text-golden'>{userCard.cardHolder}</p>
+            <p className='absolute bottom-5 sm:bottom-8 left-7 sm:left-12 p-2 text-sm text-golden'>{userCard.balance}<span className='text-[9px]'>50</span></p>
           </div>
         </div>
         
@@ -41,43 +43,43 @@ const Card = () => {
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Card Holder's Name</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>Isaiah Osarobo</p>
+                <p>{userCard.cardHolder}</p>
               </div>
           </div>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Card Number</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>8888888888888888</p>
+                <p>{userCard.cardNumber}</p>
               </div>
           </div>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Issuer</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>IO BANK</p>
+                <p>{userCard.bankName}</p>
               </div>
           </div>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Card Type</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>VISA</p>
+                <p>{userCard.cardType}</p>
               </div>
           </div>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Billing Address</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>8, Dexter Avenue P.O Box 10035</p>
+                <p>{userCard.billingAddress}</p>
               </div>
           </div>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>Expiration Date</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>12/25</p>
+                <p>{userCard.expirationDate}</p>
               </div>
           </div>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>
               <p className='text-sm font-bold'>CVV</p>
               <div className='flex flex-1 w-full justify-between text-[12px] sm:text-sm'>
-                <p>125</p>
+                <p>{userCard.cvv}</p>
               </div>
           </div>
         </div>
