@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import { accounts, ownerAccountsTypes } from '../../features/accounts/accountSlice'
 
 const Withdraw = ({ setShowWithdrawForm }) => {
-  const [fromAccount, setFromAccount] = useState('USD')
+  const accountList = useSelector(accounts)
+  const accountTypeList = useSelector(ownerAccountsTypes)
+  const [fromAccount, setFromAccount] = useState(accountList.filter(acc => acc.currencyType === 'USD')[0])
   return (
-    <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 h-3/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto sm:h-2/5 mt-12'>
+    <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 h-3/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto sm:h-[550px] mt-12'>
       <form className='p-2 w-full flex flex-col justify-between h-full relative'>
         <button className='absolute top-1 right-2' type='button' onClick={() => setShowWithdrawForm(false)}><FaTimes /></button>
         <div className='flex flex-col gap-4'>
@@ -12,12 +16,17 @@ const Withdraw = ({ setShowWithdrawForm }) => {
         </div>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
-            <label htmlFor='from' className=''>Select Account</label>
-            <select id='from' value={fromAccount} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md' onChange={(e) => setFromAccount(e.target.value)}>
-                <option value='USD'>USD</option>
-                <option value='EUR'>EUR</option>
-                <option value='GBP'>GBP</option>
-                <option value='JPY'>JPY</option>
+            <label htmlFor='from' className='w-full flex justify-between'><span>Select Account </span><span className='text-sm mt-1'>Balance {fromAccount.symbol}{fromAccount.balance}</span></label>
+            <select id='from' value={fromAccount.currencyType} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md' onChange={(e) => setFromAccount(accountList.filter(acc => acc.currencyType === e.target.value)[0])}>
+                {accountList.map(acc => (
+                    <option key={acc.currencyType} value={acc.currencyType}>{acc.currencyType}</option>
+                ))}
+            </select>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <label htmlFor='bank' className=''>Select Bank</label>
+            <select id='bank' value='IO BANK' className='bg-gray-200 h-full p-2 lg:p-3 rounded-md'>
+              <option value='IO BANK'>IO BANK</option>
             </select>
           </div>
           <div className='flex flex-col gap-2'>
