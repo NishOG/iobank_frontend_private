@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { ownerAccountsTypes } from '../features/accounts/accountSlice'
+import { ownerAccountsTypes } from '../../features/accounts/accountSlice'
 import { FaTimes } from 'react-icons/fa'
 
 const NewAccount = ({ setShowForm }) => {
