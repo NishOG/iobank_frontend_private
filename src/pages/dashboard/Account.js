@@ -35,7 +35,7 @@ const Account = () => {
       <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center`}>
         
         <div className='w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
-          <p className='font-bold text-gray-600 text-sm'>Balances(4)</p>
+          <p className='font-bold text-gray-600 text-sm'>Balances ({accountList.length})</p>
           <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out' onClick={() => setShowForm(true)}><FaPlus /><span>Create New Account</span></button>
         </div>
         

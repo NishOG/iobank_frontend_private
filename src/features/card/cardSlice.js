@@ -8,7 +8,14 @@ import { createSlice } from "@reduxjs/toolkit";
         cardHolder: "Isaiah Osarobo",
         bankName: 'IO BANK',
         symbol: '$', 
-        billingAddress: '8, Dexterity Avenue P.O Box 44120',
+        cardNumber: 8809832985901802,
+        cardType: 'MasterCard',
+        expirationDate: '09/25',
+        cvv: 123,
+        billingName: 'Isaiah Osarobo',
+        billingCity: 'New York',
+        billingState: 'NY',
+        billingAddress: '8, Dexterity Avenue P.O Box 44120'
     },
      
     transactions: [],
@@ -32,3 +39,5 @@ export const cardSlicer = createSlice(
 export const { addTransaction, createCard } = cardSlicer.actions;
 
 export default cardSlicer.reducer;
+
+export const card = state => state.cards.card;
