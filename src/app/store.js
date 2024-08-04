@@ -9,7 +9,7 @@ export const store = configureStore(
         reducer: {
             accounts: accountReducers,
             pages: pageReducers,
-            card: cardReducers
+            cards: cardReducers
         },
     }
 )
