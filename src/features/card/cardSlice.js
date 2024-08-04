@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import creditCard from "../../img/credit_card.png"
 
  const initialState =  {
     card: { 
@@ -8,6 +9,7 @@ import { createSlice } from "@reduxjs/toolkit";
         cardHolder: "Isaiah Osarobo",
         bankName: 'IO BANK',
         symbol: '$', 
+        img: creditCard,
         cardNumber: 880983298590182,
         cardType: 'MasterCard',
         expirationDate: '09/25',
