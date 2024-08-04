@@ -4,6 +4,7 @@ import Transaction from './Transaction'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { accounts } from '../../features/accounts/accountSlice'
 import { useSelector } from 'react-redux'
+import Withdraw from '../../components/Withdraw'
 import NewAccount from '../../components/NewAccount'
 
 const Account = () => {
@@ -21,13 +22,15 @@ const Account = () => {
     navigate(path)
   }
   const [showForm, setShowForm] = useState(false)
+  const [showWithdrawForm, setShowWithdrawForm] = useState(false)
   useEffect(() => {
     setCurrentAccount(accountList.filter((acc) => acc.currencyType == currency)[0])
   }, [currency])
-  const currentPageStyle = showForm ? 'hidden' : 'flex';
+  const currentPageStyle = showForm || showWithdrawForm ? 'hidden' : 'flex';
   return (
     <section>
       {showForm && <NewAccount setShowForm={setShowForm}/>}
+      {showWithdrawForm && <Withdraw setShowWithdrawForm={setShowWithdrawForm}/>}
       <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center`}>
         
         <div className='w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
@@ -48,7 +51,7 @@ const Account = () => {
         
         <div className='text-sm sm:text-xl p-2 rounded-xl flex gap-2'>
             <button className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Deposit</button>
-            <button className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Withdraw</button>
+            <button onClick={() => setShowWithdrawForm(true)} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Withdraw</button>
             <button onClick={() => navigatePage('/dashboard/convert')} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white text-blue-500 flex items-center'><FaExchangeAlt /> Convert</button>
         </div>
       </section>
