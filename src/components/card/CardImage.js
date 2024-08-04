@@ -4,7 +4,7 @@ import { card } from '../../features/card/cardSlice'
 import { FaExchangeAlt, FaPlus } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 
-const CardImage = () => {
+const CardImage = ({ setShowFundCardForm, setShowWithdrawForm }) => {
     const userCard = useSelector(card)
   return (
     <>
@@ -22,10 +22,10 @@ const CardImage = () => {
         
         <div className='text-sm sm:text-xl p-2 flex gap-2'>
             <div className='rounded-3xl bg-gray-300 hover:bg-white flex justify-center items-center'>  
-                <button className='p-3 rounded-3xl flex flex-col justify-center text-sm'><FaPlus /></button>
+                <button onClick={() => setShowFundCardForm(true)} className='p-3 rounded-3xl flex flex-col justify-center text-sm'><FaPlus /></button>
             </div>
             <div className='rounded-3xl bg-gray-300 hover:bg-white flex justify-center items-center'>  
-                <button className='p-3 rounded-3xl flex flex-col justify-center text-sm'><FaExchangeAlt /></button>
+                <button onClick={() => setShowWithdrawForm(true)} className='p-3 rounded-3xl flex flex-col justify-center text-sm'><FaExchangeAlt /></button>
             </div>
             <div className='rounded-3xl bg-gray-300 hover:bg-white flex justify-center items-center'>  
                 <button className='p-3 rounded-3xl flex flex-col justify-center text-sm text-red-500'><MdDelete /></button>

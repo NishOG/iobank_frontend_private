@@ -1,21 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import Transaction from './Transaction'
-import { card } from '../../features/card/cardSlice'
 import CardDetails from '../../components/card/CardDetails'
 import CardImage from '../../components/card/CardImage'
+import CardFundForm from '../../components/card/CardFundForm'
+import CardWithdrawForm from '../../components/card/CardWithdrawForm'
 
 const Card = () => {
+  const [showFundCardForm, setShowFundCardForm] = useState(false)
+  const [showWithdrawForm, setShowWithdrawForm] = useState(false)
+  const currentPageStyle = showFundCardForm || showWithdrawForm ? 'hidden' : 'flex';
   return (
     <>
-      
-      <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-transparent rounded-xl mt-12 p-6 gap-2 shadow-xl overflow-x-auto items-center'>
-        <CardImage />
+      {showFundCardForm && <CardFundForm setShowFundCardForm={setShowFundCardForm}/>}
+      {showWithdrawForm && <CardWithdrawForm  setShowWithdrawForm={setShowWithdrawForm}/>}
+      <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl items-center`}>
+        <CardImage  setShowFundCardForm={setShowFundCardForm}  setShowWithdrawForm={setShowWithdrawForm} />
       </section>
-      <section id='account-details-section' className='w-full flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 shadow-xl'>
+      <section id='account-details-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 shadow-xl`}>
         <CardDetails />
       </section>
-      <Transaction />
+      {showFundCardForm || showWithdrawForm ||<Transaction />}
     </>
   )
 }
