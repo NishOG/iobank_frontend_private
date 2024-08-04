@@ -23,9 +23,9 @@ import creditCard from "../../img/credit_card.png"
     transactions: [],
 };
 
-export const cardSlice = createSlice(
+export const cardSlicer = createSlice(
     {
-        name: 'card',
+        name: 'cards',
         initialState,
         reducers: {
             addTransaction: (state, action) => {
@@ -38,8 +38,8 @@ export const cardSlice = createSlice(
     }
 )
 
-export const { addTransaction, createCard } = cardSlice.actions;
+export const { addTransaction, createCard } = cardSlicer.actions;
 
-export default cardSlice.reducer;
+export default cardSlicer.reducer;
 
-export const card = state => state.card.card;
+export const card = state => state.cards.card;
