@@ -17,6 +17,9 @@ const Account = () => {
   const navigateCurrency = (currencyType) => {
     navigate(`/dashboard/accounts?currency=${currencyType}`)
   }
+  const navigatePage = (path) => {
+    navigate(path)
+  }
   const [showForm, setShowForm] = useState(false)
   useEffect(() => {
     setCurrentAccount(accountList.filter((acc) => acc.currencyType == currency)[0])
@@ -46,7 +49,7 @@ const Account = () => {
         <div className='text-sm sm:text-xl p-2 rounded-xl flex gap-2'>
             <button className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Deposit</button>
             <button className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Withdraw</button>
-            <button className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white text-blue-500 flex items-center'><FaExchangeAlt /> Convert</button>
+            <button onClick={() => navigatePage('/dashboard/convert')} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white text-blue-500 flex items-center'><FaExchangeAlt /> Convert</button>
         </div>
       </section>
 

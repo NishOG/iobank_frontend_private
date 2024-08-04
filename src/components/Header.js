@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const navigate = useNavigate()
-  const handleClick = (path) => {
+  const navigatePage = (path) => {
     navigate(path)
   }
   return (
@@ -14,13 +14,13 @@ const Header = () => {
         <div className='flex items-center'>
             <button className='lg:hidden'><FaBars size={25} /></button>
             <div className='hidden lg:flex gap-5'>
-              <button className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out gap-1'>
+              <button onClick={() => navigatePage('/dashboard/convert')} className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out gap-1'>
                 <span>
                   <FaExchangeAlt />
                 </span>
                 <span className='text-sm'>Convert</span>
               </button>
-              <button onClick={() => handleClick('/dashboard/settings')} className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out p-2 border rounded-full'>
+              <button onClick={() => navigatePage('/dashboard/settings')} className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out p-2 border rounded-full'>
                 <MdSettings size={30}/>
               </button>
               <button className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out p-3 border rounded-full bg-gray-100'>
