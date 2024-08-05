@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaChevronRight, FaMehBlank, FaPiggyBank} from 'react-icons/fa';
 import { MdFoodBank, MdSavings } from 'react-icons/md'
+import { useDispatch } from 'react-redux';
+import { authenticateUser } from '../features/users/usersSlice';
 
 const Login = () => {
+  const dispatch = useDispatch();
   // Todo implementation of controlled Input and login logic
+  useEffect(() => {
+
+  }, [])
   return (
     <main className="font-roboto flex flex-col w-screen sm:w-full lg:w-screen md:w-screen h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 ">
-
       <section className='flex flex-col justify-center p-2 w-full w-3/5 gap-8 items-center sm:w-3/5 xl:w-2/5 sm:p-6'>
           <h1 className='text-xl font-bold flex flex-col items-center'>
             <FaPiggyBank size={40}/>
@@ -16,7 +21,7 @@ const Login = () => {
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
                   <label htmlFor="email" className='block'>Email</label>
                   <input placeholder='Enter Email Address' type="email" id="email" className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
-              </div>
+       t       </div>
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
                   <label htmlFor="password" className='block w-full'>Password</label>
                   <input placeholder='Enter Password' type="password" id="password" className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
