@@ -1,5 +1,4 @@
 import React from 'react'
-import { FaCreditCard, FaFileInvoiceDollar, FaMoneyBill } from 'react-icons/fa'
 import Transaction from './Transaction'
 import { useSelector } from 'react-redux'
 import { accounts } from '../../features/accounts/accountSlice'
