@@ -18,6 +18,7 @@ const Login = () => {
  const login = () => {
     dispatch(authenticateUser(user))
   }
+  const disabledStyle = !enableButton ? 'bg-blue-300 hover:bg-blue-300' : 'hover:bg-opacity-90 bg-blue-500'
   return (
     <main className="font-roboto flex flex-col w-screen sm:w-full lg:w-screen md:w-screen h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 ">
       <section className='flex flex-col justify-center p-2 w-full w-3/5 gap-8 items-center sm:w-3/5 xl:w-2/5 sm:p-6'>
@@ -52,7 +53,7 @@ const Login = () => {
               </div>
               
               <a className='underline text-blue-500 flex items-center' href='/'>Forgot Password <FaChevronRight /></a>
-              <button disabled={!enableButton} onClick={() => login()} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>LOGIN</button>
+              <button disabled={!enableButton} onClick={() => login()} type="button" className={`${disabledStyle} p-2 rounded-xl text-white font-bold mt-2 transition-all`}>LOGIN</button>
           </form>
           <p>Don't have an account? <a href='/signup' className='underline text-blue-500'>Create One</a></p>
       </section>
