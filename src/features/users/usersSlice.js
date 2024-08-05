@@ -1,15 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
-initialState = {
+const initialState = {
     user: {}, 
     status: 'IDLE',
     error: null
 }
 
-export const authenticateUser = (userDetails) => {
-    createAsyncThunk(api.post('/api/v1/users/auth', userDetails))
-}
+export const authenticateUser = createAsyncThunk("users/autheticate", async (userDetails) =>{
+         try{
+            const{data, error} = await api.post('/api/v1/users/auth', userDetails)
+            if(error) throw error;
+         } catch(err) {
+            console.log(err.message)
+         }
+    }
+)
 
 export const userSlice = createSlice({
     name: 'user',
@@ -23,6 +29,11 @@ export const userSlice = createSlice({
             state.error = action.payload;
             state.status = 'ERROR';
         }
+    },
+    extraReducer(builder) {
+        builder.addCase(authenticateUser.pending, (state) => state.status === 'PENDING' )
+                .addCase(authenticateUser.fulfilled, (state) => state.status === 'SUCCESS' )
+                .addCase(authenticateUser.rejected, (state) => state.status === 'FAILED' )
     }
 })
 

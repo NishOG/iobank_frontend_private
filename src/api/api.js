@@ -4,8 +4,7 @@ const axiosParam = {
   baseURL: "http://localhost:8080",
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `${localStorage.getItem('token')}`
+    'Content-Type': 'application/json'
   }
 }
 

@@ -54,7 +54,7 @@ const Register = () => {
               </div>
               <button type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>SIGN UP</button>
           </form>
-          <p>Have an account? <a href='/signup' className='underline text-blue-500'>Login</a></p>
+          <p>Have an account? <a href='/login' className='underline text-blue-500'>Login</a></p>
       </section>
     </main>
   )
