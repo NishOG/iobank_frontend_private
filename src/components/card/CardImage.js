@@ -20,16 +20,25 @@ const CardImage = ({ setShowFundCardForm, setShowWithdrawForm }) => {
           </div>
         </div>
         
-        <div className='text-sm sm:text-xl p-2 flex gap-2'>
-            <div className='rounded-3xl bg-gray-300 hover:bg-white flex justify-center items-center'>  
+        <div className='text-sm sm:text-xl p-2 flex gap-4 sm:gap-6 items-center'>
+          <div className='flex flex-col items-center gap-2 flex-1'>
+            <div className='rounded-3xl bg-gray-300 border hover:bg-white flex justify-center items-center'>  
                 <button onClick={() => setShowFundCardForm(true)} className='p-3 rounded-3xl flex flex-col justify-center text-sm'><FaPlus /></button>
             </div>
-            <div className='rounded-3xl bg-gray-300 hover:bg-white flex justify-center items-center'>  
+            <p className='text-sm'>Fund</p>
+          </div>
+          <div className='flex flex-col items-center gap-2 flex-1'>
+            <div className='rounded-3xl bg-gray-300 border hover:bg-white flex justify-center items-center'>  
                 <button onClick={() => setShowWithdrawForm(true)} className='p-3 rounded-3xl flex flex-col justify-center text-sm'><FaExchangeAlt /></button>
             </div>
-            <div className='rounded-3xl bg-gray-300 hover:bg-white flex justify-center items-center'>  
+            <p className='text-sm'>Withdraw</p>
+          </div>
+          <div className='flex flex-col items-center gap-2 flex-1'>
+            <div className='rounded-3xl bg-gray-300 border hover:bg-white flex justify-center items-center'>  
                 <button className='p-3 rounded-3xl flex flex-col justify-center text-sm text-red-500'><MdDelete /></button>
             </div>
+            <p className='text-sm'>Delete</p>
+          </div>
         </div>
     </>
   )
