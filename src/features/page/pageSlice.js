@@ -18,6 +18,6 @@ export const pageSlice = createSlice({
 })
 
 export const { openSpinner, closeSpinner } = pageSlice.actions
-export const showSpinner = (state) => state.pages.showSpinner
+export const showSpinner = state => state.pages.showSpinner
 
 export default pageSlice.reducer;

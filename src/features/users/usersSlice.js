@@ -11,8 +11,10 @@ export const authenticateUser = createAsyncThunk("users/autheticate", async (use
          try{
                 const{data, error} = await api.post('/users/auth', userDetails)
                 if(error) throw error;
+                return data
             } catch(err) {
                 console.log(err.message)
+                return err
          }
     }
 )
@@ -22,8 +24,10 @@ export const registerUser = createAsyncThunk("users/register", async (userDetail
             console.log(JSON.stringify(userDetails))
             const{data, error} = await api.post('/users/register', userDetails)
             if(error) throw error;
+            return data
         } catch(err) {
             console.log(err.message)
+            return err
         }
     }
 )
@@ -41,13 +45,23 @@ export const userSlice = createSlice({
             state.status = 'ERROR';
         }
     },
-    extraReducer(builder) {
-        builder.addCase(authenticateUser.pending, (state) => state.status === 'PENDING' )
-                .addCase(authenticateUser.fulfilled, (state) => state.status === 'SUCCESS' )
-                .addCase(authenticateUser.rejected, (state) => state.status === 'FAILED' )
-                .addCase(registerUser.pending, (state) => state.status === 'PENDING')
-                .addCase(registerUser.fulfilled, (state) => state.status === 'SUCCESS')
-                .addCase(registerUser.rejected, (state) => state.status === 'FAILED')
+    extraReducers(builder) {
+        builder.addCase(authenticateUser.pending, (state) => {state.status = 'PENDING'} )
+                .addCase(authenticateUser.fulfilled, (state) => {state.status = 'SUCCESS'} )
+                .addCase(authenticateUser.rejected, (state) => {state.status = 'FAILED'} )
+                .addCase(registerUser.pending, (state) => {
+                    console.log(`Status: Pending`)
+                    state.status = 'PENDING'
+                })
+                .addCase(registerUser.fulfilled, (state) => {
+                    state.status = 'SUCCESS'
+                    console.log(`Status: success`)
+                    console.log(state.status)
+                })
+                .addCase(registerUser.rejected, (state) =>{ 
+                    console.log(`Status: Failed`)
+                    state.status = 'FAILED'
+                })
     }
 })
 

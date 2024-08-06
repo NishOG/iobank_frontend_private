@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import validateUser from '../helper/register/validateUser';
 import Spinner from '../components/Spinner';
 import { closeSpinner, openSpinner, showSpinner } from '../features/page/pageSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
   // Todo implementation of controlled Input and register logic
   const enableSpinner = useSelector(showSpinner)
   const status = useSelector(fetchStatus)
+  const navigate = useNavigate()
   const [user, setUser] = useState(
     {
       firstname: '',
@@ -23,7 +25,6 @@ const Register = () => {
       dob: ''
     }
   )
-  useEffect(() => {}, [user, enableSpinner])
   const [errors, setErrors] = useState({status: false})
   const dispatch = useDispatch();
  
@@ -37,18 +38,26 @@ const Register = () => {
     dispatch(openSpinner())
     console.log('Signing Up...')
     dispatch(registerUser(user)) // Dispatch action to register user in the Redux store
-    setTimeout(() => {
-      dispatch(closeSpinner())
-      if(status === 'SUCCESS') {
-        alert('Registration successful!')
-      }
-    },  4000)
   }
   const handleInputChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value })
   }
   const errorStyle = (fieldname) => errors[fieldname] ? 'text-red-500' : ''
   const disabledStyle = validateUser(user).hasErrors ? 'bg-blue-300 hover:bg-blue-300' : 'hover:bg-opacity-90 bg-blue-500'
+  useEffect(() => {
+    if (status === 'SUCCESS') {
+      setTimeout(() => {
+        console.log('Registration successful!');
+        dispatch(closeSpinner());
+        navigate('/successful');
+      }, 3000)
+    } else if (status === 'FAILED') {
+      setTimeout(() => {
+        console.log('Registration failed!');
+        dispatch(closeSpinner());
+      }, 3000);
+    }
+  }, [status, dispatch, navigate]);
   return (
     <main className="font-roboto flex flex-col w-full min-h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 pb-8 relative">
       {enableSpinner && <Spinner />}

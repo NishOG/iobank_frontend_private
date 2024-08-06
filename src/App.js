@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { store } from './app/store';
 import Redirect from './pages/Redirect';
+import RegisterSuccessful from './pages/RegisterSuccessful';
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,10 @@ function App() {
     {
       path: '/signup',
       element: <Register />
+    },
+    {
+      path: '/successful',
+      element: <RegisterSuccessful />
     }
   ]); // Added closing bracket and colon here
   return (
