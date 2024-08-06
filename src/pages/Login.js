@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const status = useSelector(fetchStatus)
+  const [error, setError] = useState(false)
   const enableSpinner = useSelector(showSpinner)
   const delay = useSelector(spinnerDelay)
   const navigate = useNavigate()
@@ -30,12 +31,14 @@ const Login = () => {
   useEffect(() => {
     if (status === 'SUCCESS') {
       setTimeout(() => {
-        dispatch(resetStatus())
         dispatch(closeSpinner())
+        setError(false)
         navigate('/dashboard')
+        dispatch(resetStatus())
       }, delay)
     } else if (status === 'FAILED') {
       setTimeout(() => {
+        setError(true)
         dispatch(resetStatus())
         dispatch(closeSpinner())
       }, delay)
