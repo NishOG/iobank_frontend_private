@@ -10,6 +10,7 @@ import { closeSpinner, openSpinner, showSpinner } from '../features/page/pageSli
 const Register = () => {
   // Todo implementation of controlled Input and register logic
   const enableSpinner = useSelector(showSpinner)
+  const status = useSelector(fetchStatus)
   const [user, setUser] = useState(
     {
       firstname: '',
@@ -22,12 +23,8 @@ const Register = () => {
       dob: ''
     }
   )
-  useEffect(() => {
-
-  }, [user, enableSpinner])
-  const [errors, setErrors] = useState({
-    status: false
-  })
+  useEffect(() => {}, [user, enableSpinner])
+  const [errors, setErrors] = useState({status: false})
   const dispatch = useDispatch();
  
   const signUp = async (e) => {
@@ -40,7 +37,12 @@ const Register = () => {
     dispatch(openSpinner())
     console.log('Signing Up...')
     dispatch(registerUser(user)) // Dispatch action to register user in the Redux store
-    setTimeout(() => dispatch(closeSpinner()),  5000)
+    setTimeout(() => {
+      dispatch(closeSpinner())
+      if(status === 'SUCCESS') {
+        alert('Registration successful!')
+      }
+    },  4000)
   }
   const handleInputChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value })
@@ -59,24 +61,24 @@ const Register = () => {
               <div className='flex flex-col sm:flex-row gap-1 flex-1 w-full sm:gap-6'>
                 <div className='flex flex-col gap-1 flex-1 mt-2'>
                     <label htmlFor="firstname" className='block'>Provide Firstname <span className={errorStyle('firstname')}>*</span></label>
-                    <input value={user.firstname} name='firstname' onChange={(e) => handleInputChange(e)} placeholder='Julius' type="text" id="firstname" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                    <input value={user.firstname} name='firstname' onChange={handleInputChange} placeholder='Julius' type="text" id="firstname" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
                 </div>
                 <div className='flex flex-col gap-1 flex-1 mt-2'>
                     <label htmlFor="lastname" className='block w-full'>Provide Lastname <span className={errorStyle('lastname')}>*</span></label>
-                    <input value={user.lastname} name='lastname' onChange={(e) => handleInputChange(e)} placeholder='Anderson' type="text" id="lastname" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                    <input value={user.lastname} name='lastname' onChange={handleInputChange} placeholder='Anderson' type="text" id="lastname" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
                 </div>
               </div>
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
                 <label htmlFor="email" className='block'>Provide Email <span className={errorStyle('email')}>*</span></label>
-                <input value={user.email} name='email' onChange={(e) => handleInputChange(e)} placeholder='Enter Email Address' type="email" id="email" className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                <input value={user.email} name='email' onChange={handleInputChange} placeholder='Enter Email Address' type="email" id="email" className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
               </div>
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
                 <label htmlFor="tel" className='block'>Provide Tel <span className={errorStyle('tel')}>*</span></label>
-                <input value={user.tel} name='tel' onChange={(e) => handleInputChange(e)} placeholder='Enter Phone Number' type="number" id="tel" className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                <input value={user.tel} name='tel' onChange={handleInputChange} placeholder='Enter Phone Number' type="number" id="tel" className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
               </div>
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
                 <label htmlFor='gender'>Gender <span className={errorStyle('gender')}>*</span></label>
-                <select value={user.gender} name='gender' onChange={(e) => handleInputChange(e)} id='gender' className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required>
+                <select value={user.gender} name='gender' onChange={handleInputChange} id='gender' className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required>
                     <option value="">Select Your Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -84,19 +86,19 @@ const Register = () => {
               </div>
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
                 <label htmlFor="dob" className='block'>Provide Date of birth <span className={errorStyle('dob')}>*</span></label>
-                <input value={user.dob} name='dob' onChange={(e) => handleInputChange(e)} type="date" id="dob" className='flex justify-space w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                <input value={user.dob} name='dob' onChange={handleInputChange} type="date" id="dob" className='flex justify-space w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
               </div>
               <div className='flex flex-col sm:flex-row gap-1 flex-1 w-full sm:gap-6'>
                 <div className='flex flex-col gap-1 flex-1 mt-2'>
                     <label htmlFor="password" className='block'>Password <span className={errorStyle('password')}>*</span></label>
-                    <input value={user.password} name='password' onChange={(e) => handleInputChange(e)} placeholder='Enter your password' type="password" id="password" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                    <input value={user.password} name='password' onChange={handleInputChange} placeholder='Enter your password' type="password" id="password" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
                 </div>
                 <div className='flex flex-col gap-1 flex-1 mt-2'>
                     <label htmlFor="confirm-password" className='block w-full'>Confirm Password <span className={errorStyle('password')}>*</span></label>
-                    <input value={user.confirmPassword} name='confirmPassword' onChange={(e) => handleInputChange(e)} placeholder='Comfirm your password' type="password" id="confirm-password" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
+                    <input value={user.confirmPassword} name='confirmPassword' onChange={handleInputChange} placeholder='Comfirm your password' type="password" id="confirm-password" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
                 </div>
               </div>
-              <button disabled={validateUser(user).hasErrors} onClick={(e) => signUp(e)} type="button" className={`${disabledStyle} p-2 rounded-xl text-white font-bold mt-2 transition-all`}>SIGN UP</button>
+              <button disabled={validateUser(user).hasErrors} onClick={signUp} type="button" className={`${disabledStyle} p-2 rounded-xl text-white font-bold mt-2 transition-all`}>SIGN UP</button>
           </form>
           <p>Have an account? <a href='/login' className='underline text-blue-500'>Login</a></p>
       </section>

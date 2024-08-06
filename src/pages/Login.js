@@ -35,7 +35,7 @@ const Login = () => {
                     required 
                     name='username'
                     value={user.username}
-                    onChange={(e) => handleInputChange(e)}
+                    onChange={handleInputChange}
                   />
               </div>
               <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
@@ -47,12 +47,12 @@ const Login = () => {
                     required 
                     name='password'
                     value={user.password}
-                    onChange={(e) => handleInputChange(e)}
+                    onChange={handleInputChange}
                     />
               </div>
               
               <a className='underline text-blue-500 flex items-center' href='/'>Forgot Password <FaChevronRight /></a>
-              <button disabled={!enableButton} onClick={() => login()} type="button" className={`${disabledStyle} p-2 rounded-xl text-white font-bold mt-2 transition-all`}>LOGIN</button>
+              <button disabled={!enableButton} onClick={login} type="button" className={`${disabledStyle} p-2 rounded-xl text-white font-bold mt-2 transition-all`}>LOGIN</button>
           </form>
           <p>Don't have an account? <a href='/signup' className='underline text-blue-500'>Create One</a></p>
       </section>
