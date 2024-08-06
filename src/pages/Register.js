@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { FaPiggyBank} from 'react-icons/fa';
-import { registerUser } from '../features/users/usersSlice';
-import { useDispatch } from 'react-redux';
+import { fetchStatus, registerUser } from '../features/users/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import validateUser from '../helper/register/validateUser';
+import Spinner from '../components/Spinner';
+import { closeSpinner, openSpinner, showSpinner } from '../features/page/pageSlice';
 
 
 const Register = () => {
   // Todo implementation of controlled Input and register logic
+  const enableSpinner = useSelector(showSpinner)
   const [user, setUser] = useState(
     {
       firstname: '',
@@ -19,30 +22,34 @@ const Register = () => {
       dob: ''
     }
   )
-  useEffect(() => {}, [user])
+  useEffect(() => {
+
+  }, [user, enableSpinner])
   const [errors, setErrors] = useState({
     status: false
   })
   const dispatch = useDispatch();
  
-  const signUp = (e) => {
+  const signUp = async (e) => {
     e.preventDefault()
     const registrationErrors = validateUser(user)
     if(registrationErrors.hasErrors) {
       setErrors(registrationErrors.errors)
       return
     }
+    dispatch(openSpinner())
     console.log('Signing Up...')
     dispatch(registerUser(user)) // Dispatch action to register user in the Redux store
+    setTimeout(() => dispatch(closeSpinner()),  5000)
   }
   const handleInputChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value })
   }
   const errorStyle = (fieldname) => errors[fieldname] ? 'text-red-500' : ''
-  const enableButton = user.email.length > 0 && user.password.length > 0 
   const disabledStyle = validateUser(user).hasErrors ? 'bg-blue-300 hover:bg-blue-300' : 'hover:bg-opacity-90 bg-blue-500'
   return (
-    <main className="font-roboto flex flex-col w-full min-h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 pb-8">
+    <main className="font-roboto flex flex-col w-full min-h-screen justify-center items-center bg-gradient-to-r from-gray-300 to-white-500 pb-8 relative">
+      {enableSpinner && <Spinner />}
       <section className='flex flex-col justify-center p-2 w-full w-3/5 gap-8 items-center sm:w-3/5 xl:w-2/5 sm:p-6'>
           <h1 className='text-xl font-bold flex flex-col items-center'>
             <FaPiggyBank size={40}/>

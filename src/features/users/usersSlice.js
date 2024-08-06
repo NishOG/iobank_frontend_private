@@ -53,4 +53,5 @@ export const userSlice = createSlice({
 
 export const { setUser, setUserError } = userSlice.actions;
 
+export const fetchStatus = state => state.user.status
 export default userSlice.reducer;
