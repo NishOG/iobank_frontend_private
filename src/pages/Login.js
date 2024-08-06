@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { FaChevronRight, FaMehBlank, FaPiggyBank} from 'react-icons/fa';
-import { MdFoodBank, MdSavings } from 'react-icons/md'
+import React, { useState } from 'react'
+import { FaChevronRight, FaPiggyBank} from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { authenticateUser } from '../features/users/usersSlice';
 

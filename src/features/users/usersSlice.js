@@ -9,11 +9,21 @@ const initialState = {
 
 export const authenticateUser = createAsyncThunk("users/autheticate", async (userDetails) =>{
          try{
-            const{data, error} = await api.post('/api/v1/users/auth', userDetails)
-            if(error) throw error;
-         } catch(err) {
-            console.log(err.message)
+                const{data, error} = await api.post('/api/v1/users/auth', userDetails)
+                if(error) throw error;
+            } catch(err) {
+                console.log(err.message)
          }
+    }
+)
+
+export const registerUser = createAsyncThunk("users/register", async (userDetails) => {
+    try{
+            const{data, error} = await api.post('/api/v1/users', userDetails)
+            if(error) throw error;
+        } catch(err) {
+            console.log(err.message)
+        }
     }
 )
 
@@ -34,6 +44,9 @@ export const userSlice = createSlice({
         builder.addCase(authenticateUser.pending, (state) => state.status === 'PENDING' )
                 .addCase(authenticateUser.fulfilled, (state) => state.status === 'SUCCESS' )
                 .addCase(authenticateUser.rejected, (state) => state.status === 'FAILED' )
+                .addCase(registerUser.pending, (state) => state.status === 'PENDING')
+                .addCase(registerUser.fulfilled, (state) => state.status === 'SUCCESS')
+                .addCase(registerUser.rejected, (state) => state.status === 'FAILED')
     }
 })
 
