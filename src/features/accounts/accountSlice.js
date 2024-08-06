@@ -17,8 +17,11 @@ const initialState = {
 
 export const fetchAccounts = createAsyncThunk('fetch/accounts', async () => {
   try{
-    const {data, error} = await api.get('/accounts', { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`}})
+    console.log(`Printing out the access token from session: ${JSON.stringify(sessionStorage.getItem('access_token'))}`)
+    const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
+    const {data, error} = await api.get('/accounts', headers)
     if(error) throw error;
+    console.log(JSON.stringify(data));
     return data
   } catch(err) {
     throw new Error(err.message)

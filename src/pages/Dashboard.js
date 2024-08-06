@@ -11,16 +11,20 @@ import Settings from './dashboard/Settings'
 import Profile from './dashboard/Profile'
 import Convert from './dashboard/Convert'
 import { fetchedUser } from '../features/users/usersSlice'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchAccounts } from '../features/accounts/accountSlice'
+import Spinner from '../components/Spinner'
 
 const Dashboard = () => {
   const user = useSelector(fetchedUser)
   const navigate = useNavigate()
-  console.log(JSON.stringify(user))
+  const dispatch = useDispatch()
   useEffect(() => {
-    if (!user.uid) {
+    if (!sessionStorage.getItem('user')) {
       navigate('/login')
+      return
     }
+    dispatch(fetchAccounts())
   }, [user, navigate])
   return (
     <main className="font-roboto lg:ml-250">
@@ -28,6 +32,7 @@ const Dashboard = () => {
           <NavBar />
           <Header />
             <section className='relative flex-1 pt-12 p-2 sm:p-6 w-full  sm:mt-6'>
+              {/* <Spinner /> */}
               <Routes>
                 <Route path='/' element={<Home />}/>
                 <Route path='/accounts' element={<Account />}/>

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
 const initialState = {
-    user: {}, 
+    user: JSON.parse(sessionStorage.getItem('user')), 
     status: 'IDLE',
     error: null
 }
@@ -11,8 +11,10 @@ export const authenticateUser = createAsyncThunk("users/autheticate", async (use
          try{
                 const{data, headers, error} = await api.post('/users/auth', userDetails)
                 if(error) throw error;
-                console.log(JSON.stringify(headers.authorization))
+                const authorization = headers.authorization
+                console.log(authorization)
                 sessionStorage.setItem('access_token', headers.authorization)
+                sessionStorage.setItem('user', JSON.stringify(data))
                 return data
             } catch(err) {
                 console.log(err.message)
@@ -23,7 +25,6 @@ export const authenticateUser = createAsyncThunk("users/autheticate", async (use
 
 export const registerUser = createAsyncThunk("users/register", async (userDetails) => {
     try{
-            console.log(JSON.stringify(userDetails))
             const{data, error} = await api.post('/users/register', userDetails)
             if(error) throw error;
             return data
@@ -56,11 +57,8 @@ export const userSlice = createSlice({
                     state.status = 'PENDING'
                 })
                 .addCase(authenticateUser.fulfilled, (state, action) => {
-                    console.log(`Authentication Status: Success`)
                     state.user = action.payload
                     console.log(`Header Details`)
-                    console.log(JSON.stringify(action.payload))
-                    console.log(`Authenticated User details: ${JSON.stringify(action.payload)}`)
                     state.status = 'SUCCESS'
                 })
                 .addCase(authenticateUser.rejected, (state) => {
