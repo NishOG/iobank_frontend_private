@@ -9,9 +9,10 @@ const initialState = {
 
 export const authenticateUser = createAsyncThunk("users/autheticate", async (userDetails) =>{
          try{
-                const{data, error} = await api.post('/users/auth', userDetails)
-                console.log(JSON.stringify(data))
+                const{data, headers, error} = await api.post('/users/auth', userDetails)
                 if(error) throw error;
+                console.log(JSON.stringify(headers.authorization))
+                sessionStorage.setItem('access_token', headers.authorization)
                 return data
             } catch(err) {
                 console.log(err.message)
@@ -57,7 +58,9 @@ export const userSlice = createSlice({
                 .addCase(authenticateUser.fulfilled, (state, action) => {
                     console.log(`Authentication Status: Success`)
                     state.user = action.payload
-                    console.log(`Authenticated User details: ${action.payload}`)
+                    console.log(`Header Details`)
+                    console.log(JSON.stringify(action.payload))
+                    console.log(`Authenticated User details: ${JSON.stringify(action.payload)}`)
                     state.status = 'SUCCESS'
                 })
                 .addCase(authenticateUser.rejected, (state) => {

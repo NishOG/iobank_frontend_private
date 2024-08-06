@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../../api/api";
 import ng from '../../img/ng.png';
 import us from '../../img/us.png';
 import gb from '../../img/gb.png';
@@ -14,6 +15,15 @@ const initialState = {
   transactions: [],
 };
 
+export const fetchAccounts = createAsyncThunk('fetch/accounts', async () => {
+  try{
+    const {data, error} = await api.get('/accounts', { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`}})
+    if(error) throw error;
+    return data
+  } catch(err) {
+    throw new Error(err.message)
+  }
+})
 export const accounsSlice = createSlice(
     {
       name: "accounts",
@@ -26,6 +36,20 @@ export const accounsSlice = createSlice(
           state.transactions.push(action.payload);
         },
       },
+      extraReducers(builder) {
+        builder
+         .addCase(fetchAccounts.pending, (state) => {
+            state.status = 'loading';
+          })
+         .addCase(fetchAccounts.fulfilled, (state, action) => {
+            state.status ='succeeded';
+            state.accounts = action.payload;
+          })
+         .addCase(fetchAccounts.rejected, (state, action) => {
+            state.status = 'failed';
+            console.log('Fetch failed:', action.error);
+          });
+      }
     }
 )
 
