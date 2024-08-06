@@ -9,7 +9,7 @@ const initialState = {
 
 export const authenticateUser = createAsyncThunk("users/autheticate", async (userDetails) =>{
          try{
-                const{data, error} = await api.post('/api/v1/users/auth', userDetails)
+                const{data, error} = await api.post('/users/auth', userDetails)
                 if(error) throw error;
             } catch(err) {
                 console.log(err.message)
@@ -19,7 +19,7 @@ export const authenticateUser = createAsyncThunk("users/autheticate", async (use
 
 export const registerUser = createAsyncThunk("users/register", async (userDetails) => {
     try{
-            const{data, error} = await api.post('/api/v1/users', userDetails)
+            const{data, error} = await api.post('/users/register', userDetails)
             if(error) throw error;
         } catch(err) {
             console.log(err.message)
