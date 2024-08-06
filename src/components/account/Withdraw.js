@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
-import { accounts, ownerAccountsTypes } from '../../features/accounts/accountSlice'
+import { accounts } from '../../features/accounts/accountSlice'
 
 const Withdraw = ({ setShowWithdrawForm }) => {
   const accountList = useSelector(accounts)
-  const accountTypeList = useSelector(ownerAccountsTypes)
   const [fromAccount, setFromAccount] = useState(accountList.filter(acc => acc.currencyType === 'USD')[0])
   return (
     <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 h-3/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto sm:h-[550px] mt-12'>

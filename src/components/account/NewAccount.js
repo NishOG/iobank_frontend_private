@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { ownerAccountsTypes } from '../../features/accounts/accountSlice'
+import { accounts } from '../../features/accounts/accountSlice'
 import { FaTimes } from 'react-icons/fa'
 
 const NewAccount = ({ setShowForm }) => {
+    const accountsList = useSelector(accounts)
     const [currency, setCurrency] = useState('')
     const [accountType, setAccountType] = useState([
         {code: 'USD', label: 'United States Dollar'},
@@ -11,13 +12,9 @@ const NewAccount = ({ setShowForm }) => {
         {code: 'EURO', label: 'European Euro'},
         {code: 'GPB', label: 'British Pounds'},
         {code: 'INR', label: 'Indian Rupee'},
-        {code: 'CAD', label: 'Canadian Dollar'},
-        {code: 'JPY', label: 'Japanese Yen'},
-        {code: 'AUD', label: 'Australian Dollar'},
-        {code: 'CHF', label: 'Swiss Franc'},
         {code: 'CNY', label: 'Chinese Yuan'}
     ])
-    const accountTypeList = useSelector(ownerAccountsTypes)
+    const accountTypeList = accountsList.map((account) => account.currencyType)
     useEffect(() => {
         const updateList = () => {
             const filteredList = accountType.filter(account => !accountTypeList.includes(account.code))

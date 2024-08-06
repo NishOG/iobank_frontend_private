@@ -46,7 +46,14 @@ export const accounsSlice = createSlice(
           })
          .addCase(fetchAccounts.fulfilled, (state, action) => {
             state.status ='succeeded';
-            state.accounts = action.payload;
+            const fetchedAccounts = action.payload;
+            const accounts = fetchedAccounts.map(acc => {
+              if (acc.currencyType == 'USD') acc.flag = us
+              if (acc.currencyType == 'NGN') acc.flag = ng
+              if (acc.currencyType == 'EURO') acc.flag = eu
+              if (acc.currencyType == 'GPB') acc.flag = gb
+            })
+            state.accounts = accounts; 
           })
          .addCase(fetchAccounts.rejected, (state, action) => {
             state.status = 'failed';
@@ -60,4 +67,3 @@ export const { addAccount, addTransaction } = accounsSlice.actions;
 
 export default accounsSlice.reducer;
 export const accounts = state => state.accounts.accounts
-export const ownerAccountsTypes = state => state.accounts.accounts.map(account => (account.currencyType))
