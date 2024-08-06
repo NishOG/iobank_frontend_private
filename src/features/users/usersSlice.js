@@ -19,6 +19,7 @@ export const authenticateUser = createAsyncThunk("users/autheticate", async (use
 
 export const registerUser = createAsyncThunk("users/register", async (userDetails) => {
     try{
+            console.log(JSON.stringify(userDetails))
             const{data, error} = await api.post('/users/register', userDetails)
             if(error) throw error;
         } catch(err) {
