@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    showSpinner: false
+    showSpinner: false,
+    spinnerDelay: 3000
 }
 
 export const pageSlice = createSlice({
@@ -19,5 +20,6 @@ export const pageSlice = createSlice({
 
 export const { openSpinner, closeSpinner } = pageSlice.actions
 export const showSpinner = state => state.pages.showSpinner
+export const spinnerDelay = state => state.delay
 
 export default pageSlice.reducer;

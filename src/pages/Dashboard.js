@@ -10,9 +10,12 @@ import Payment from './dashboard/Payment'
 import Settings from './dashboard/Settings'
 import Profile from './dashboard/Profile'
 import Convert from './dashboard/Convert'
+import { fetchedUser } from '../features/users/usersSlice'
+import { useSelector } from 'react-redux'
 
 const Dashboard = () => {
-  
+  const user = useSelector(fetchedUser)
+  console.log(JSON.stringify(user))
   return (
     <main className="font-roboto lg:ml-250">
       <section className="font-roboto flex flex-row w-full min-h-screen bg-gradient-to-r from-gray-300 to-white-500 overflow-x-hidden">

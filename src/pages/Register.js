@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { FaPiggyBank} from 'react-icons/fa';
-import { fetchStatus, registerUser } from '../features/users/usersSlice';
+import { fetchStatus, registerUser, resetStatus } from '../features/users/usersSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import validateUser from '../helper/register/validateUser';
 import Spinner from '../components/Spinner';
-import { closeSpinner, openSpinner, showSpinner } from '../features/page/pageSlice';
+import { closeSpinner, openSpinner, showSpinner, spinnerDelay } from '../features/page/pageSlice';
 import { useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
   // Todo implementation of controlled Input and register logic
   const enableSpinner = useSelector(showSpinner)
+  const delay = useSelector(spinnerDelay)
   const status = useSelector(fetchStatus)
   const navigate = useNavigate()
   const [user, setUser] = useState(
@@ -49,13 +50,15 @@ const Register = () => {
       setTimeout(() => {
         console.log('Registration successful!');
         dispatch(closeSpinner());
+        dispatch(resetStatus())
         navigate('/successful');
-      }, 3000)
+      }, delay)
     } else if (status === 'FAILED') {
       setTimeout(() => {
         console.log('Registration failed!');
         dispatch(closeSpinner());
-      }, 3000);
+        dispatch(resetStatus())
+      }, delay);
     }
   }, [status, dispatch, navigate]);
   return (

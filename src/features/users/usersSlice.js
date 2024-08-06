@@ -10,11 +10,12 @@ const initialState = {
 export const authenticateUser = createAsyncThunk("users/autheticate", async (userDetails) =>{
          try{
                 const{data, error} = await api.post('/users/auth', userDetails)
+                console.log(JSON.stringify(data))
                 if(error) throw error;
                 return data
             } catch(err) {
                 console.log(err.message)
-                return err
+                throw err
          }
     }
 )
@@ -27,7 +28,7 @@ export const registerUser = createAsyncThunk("users/register", async (userDetail
             return data
         } catch(err) {
             console.log(err.message)
-            return err
+            throw err
         }
     }
 )
@@ -43,12 +44,26 @@ export const userSlice = createSlice({
         setUserError: (state, action) => {
             state.error = action.payload;
             state.status = 'ERROR';
+        },
+        resetStatus: (state) => {
+            state.status = 'IDLE'
         }
     },
     extraReducers(builder) {
-        builder.addCase(authenticateUser.pending, (state) => {state.status = 'PENDING'} )
-                .addCase(authenticateUser.fulfilled, (state) => {state.status = 'SUCCESS'} )
-                .addCase(authenticateUser.rejected, (state) => {state.status = 'FAILED'} )
+        builder.addCase(authenticateUser.pending, (state) => {
+                    console.log(`Authentication Status: Pending`)
+                    state.status = 'PENDING'
+                })
+                .addCase(authenticateUser.fulfilled, (state, action) => {
+                    console.log(`Authentication Status: Success`)
+                    state.user = action.payload
+                    console.log(`Authenticated User details: ${action.payload}`)
+                    state.status = 'SUCCESS'
+                })
+                .addCase(authenticateUser.rejected, (state) => {
+                    console.log(`Authentication Status: Failed`)
+                    state.status = 'FAILED'
+                })
                 .addCase(registerUser.pending, (state) => {
                     console.log(`Status: Pending`)
                     state.status = 'PENDING'
@@ -65,7 +80,8 @@ export const userSlice = createSlice({
     }
 })
 
-export const { setUser, setUserError } = userSlice.actions;
+export const { setUser, setUserError, resetStatus } = userSlice.actions;
 
+export const fetchedUser = state => state.user.user
 export const fetchStatus = state => state.user.status
 export default userSlice.reducer;
