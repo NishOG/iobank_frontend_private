@@ -11,6 +11,7 @@ const initialState = {
   accounts: [],
   transactions: [],
   status: 'IDLE', // IDLE, PENDING, SUCCESS, or ERROR
+  receipientAccount: null
 };
 
 export const fetchAccounts = createAsyncThunk('accounts/fetch', async () => {
@@ -25,7 +26,6 @@ export const fetchAccounts = createAsyncThunk('accounts/fetch', async () => {
 })
 export const createAccount = createAsyncThunk("accounts/create", async (accountDetails) => {
   try{
-    console.log(`Printing out the access token from session: ${JSON.stringify(sessionStorage.getItem('access_token'))}`)
     const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
     console.log(`Account Details: ${JSON.stringify(accountDetails)}`)
     const {data, error} = await api.post('/accounts', accountDetails, headers)
@@ -36,6 +36,16 @@ export const createAccount = createAsyncThunk("accounts/create", async (accountD
   }
 })
 
+export const fetchAccountHolder = createAsyncThunk("accounts/find", async (details) => {
+  try{
+    const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
+    const {data, error} = await api.post(`/accounts/find`, details,  headers)
+    if(error) throw error;
+    return data
+  } catch(err) {
+    throw new Error(err.message)
+  }
+})
 export const accounsSlice = createSlice(
     {
       name: "accounts",
@@ -86,12 +96,24 @@ export const accounsSlice = createSlice(
             state.status = 'FAILED';
             console.log('Account creation failed:', action.error);
           })
+          .addCase(fetchAccountHolder.pending, (state) => {
+            state.status = 'PENDING';
+          })
+          .addCase(fetchAccountHolder.fulfilled, (state, action) => {
+            state.status = 'SUCCESS';
+            state.receipientAccount = action.payload
+          })
+          .addCase(fetchAccountHolder.rejected, (state, action) => {
+            state.status = 'FAILED';
+            console.log('Account holder search failed:', action.error);
+          })
       }
     }
 )
 
 export const fetchAccountStatus = state => state.accounts.status
 export const { addAccount, addTransaction, resetAccountStatus } = accounsSlice.actions;
+export const fetchReceipient = state => state.accounts.receipientAccount;
 
 export default accounsSlice.reducer;
 export const accounts = state => state.accounts.accounts

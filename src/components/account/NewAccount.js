@@ -28,15 +28,16 @@ const NewAccount = ({ setShowForm }) => {
     }
     const accountTypeList = accountsList.map((account) => account.code)
     const create = () => {
-        const accountDetails = accountType.filter(account => account.code == currency)[0]
+        const accountDetails = accountType.filter(account => account.code === currency)[0]
         dispatch(openSpinner())
         dispatch(createAccount(accountDetails))
+        dispatch(fetchAccounts())
     }
     useEffect(() => {
         if (status === 'SUCCESS') { 
             setTimeout(() => {
                 dispatch(closeSpinner());
-            }, delay);
+            }, 3000);
             setShowForm(false);
             dispatch(resetAccountStatus());
             console.log(status)
