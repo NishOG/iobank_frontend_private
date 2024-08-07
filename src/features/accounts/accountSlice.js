@@ -11,7 +11,7 @@ const initialState = {
   accounts: [],
   transactions: [],
   status: 'IDLE', // IDLE, PENDING, SUCCESS, or ERROR
-  receipientAccount: null
+  recipientAccount: null
 };
 
 export const fetchAccounts = createAsyncThunk('accounts/fetch', async () => {
@@ -61,7 +61,10 @@ export const accounsSlice = createSlice(
         },
         resetAccountStatus: (state) => {
           state.status = 'IDLE';
-        }
+        },
+        resetRecipient: (state) => {
+          state.recipientAccount = null
+        } 
       },
       extraReducers(builder) {
         builder
@@ -104,7 +107,7 @@ export const accounsSlice = createSlice(
           .addCase(fetchAccountHolder.fulfilled, (state, action) => {
             state.status = 'SUCCESS';
             console.log(`Current State: ${state.status}`)
-            state.receipientAccount = action.payload
+            state.recipientAccount = action.payload
           })
           .addCase(fetchAccountHolder.rejected, (state, action) => {
             state.status = 'FAILED';
@@ -115,8 +118,8 @@ export const accounsSlice = createSlice(
 )
 
 export const fetchAccountStatus = state => state.accounts.status
-export const { addAccount, addTransaction, resetAccountStatus } = accounsSlice.actions;
-export const fetchReceipient = state => state.accounts.receipientAccount;
+export const { addAccount, addTransaction, resetAccountStatus, resetRecipient } = accounsSlice.actions;
+export const fetchRecipient = state => state.accounts.recipientAccount;
 
 export default accounsSlice.reducer;
 export const accounts = state => state.accounts.accounts
