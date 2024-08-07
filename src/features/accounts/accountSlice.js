@@ -39,8 +39,10 @@ export const createAccount = createAsyncThunk("accounts/create", async (accountD
 export const fetchAccountHolder = createAsyncThunk("accounts/find", async (details) => {
   try{
     const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
+    console.log(details)
     const {data, error} = await api.post(`/accounts/find`, details,  headers)
     if(error) throw error;
+    console.log(data)
     return data
   } catch(err) {
     throw new Error(err.message)
@@ -101,6 +103,7 @@ export const accounsSlice = createSlice(
           })
           .addCase(fetchAccountHolder.fulfilled, (state, action) => {
             state.status = 'SUCCESS';
+            console.log(`Current State: ${state.status}`)
             state.receipientAccount = action.payload
           })
           .addCase(fetchAccountHolder.rejected, (state, action) => {

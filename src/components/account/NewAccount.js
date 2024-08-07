@@ -37,9 +37,9 @@ const NewAccount = ({ setShowForm }) => {
         if (status === 'SUCCESS') { 
             setTimeout(() => {
                 dispatch(closeSpinner());
+                setShowForm(false);
+                dispatch(resetAccountStatus());
             }, 3000);
-            setShowForm(false);
-            dispatch(resetAccountStatus());
             console.log(status)
             console.log('Account created successfully');
         }

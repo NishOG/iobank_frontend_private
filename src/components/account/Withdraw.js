@@ -24,31 +24,32 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   const handleInputChange = (e) => {
     setTransactionInfo({...transactionInfo, [e.target.name]: e.target.value })
   }
-  const [fromAccount, setFromAccount] = useState(null)
+  const [fromAccount, setFromAccount] = useState(accountList.filter(acc => acc.code === code)[0])
   const setAccount = (e) => {
     console.log(e.target.value)
-    setFromAccount({...fromAccount, ...e.target.value.code})
+    setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
+    setCode(e.target.value)
   }
   const findReceipient = () => {
-    setTransactionInfo({...transactionInfo, currency: fromAccount.code})
+    const details = {...transactionInfo, currency: fromAccount.code}
     dispatch(openSpinner())
-    dispatch(fetchAccountHolder(transactionInfo))
+    dispatch(fetchAccountHolder(details))
   }
   useEffect(() => {
-    setFromAccount(accountList.filter(acc => acc.code === code)[0])
     if (status === 'SUCCESS') {
+      console.log('Printing out the status of the transzation ' + status)
       setTimeout(() => {
         dispatch(closeSpinner())
-      }, delay)
-      dispatch(resetAccountStatus())
+        dispatch(resetAccountStatus())
+      }, 3000)
     }
     if (status === 'FAILED') {
       setTimeout(() => {
         dispatch(closeSpinner())
-      }, delay)
-      dispatch(resetAccountStatus())
+        dispatch(resetAccountStatus())
+      }, 3000)
     }
-  }, [dispatch, status, code])
+  }, [dispatch, status])
   return (
     <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 h-3/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto sm:h-[550px] mt-12'>
       <form className='p-2 w-full flex flex-col justify-between h-full relative'>
@@ -60,7 +61,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <label htmlFor='from' className='w-full flex justify-between'><span>Select Account </span><span className='text-sm mt-1'>Balance {fromAccount && fromAccount.symbol}{fromAccount && fromAccount.balance}</span></label>
-            <select id='from' name='code' value={code} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md' onChange={(e) => setCode(e.target.value)}>
+            <select id='from' name='code' value={code} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md' onChange={setAccount}>
                 {accountList.map(acc => (
                     <option key={acc.code} value={acc.code}>{acc.code}</option>
                 ))}

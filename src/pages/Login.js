@@ -3,14 +3,13 @@ import { FaChevronRight, FaPiggyBank} from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser, fetchStatus, resetStatus } from '../features/users/usersSlice';
 import Spinner from '../components/Spinner';
-import { closeSpinner, openSpinner, showSpinner, spinnerDelay } from '../features/page/pageSlice';
+import { closeSpinner, openSpinner, showSpinner } from '../features/page/pageSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const status = useSelector(fetchStatus)
   const [error, setError] = useState(false)
   const enableSpinner = useSelector(showSpinner)
-  const delay = useSelector(spinnerDelay)
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const [user, setUser] = useState({
@@ -35,13 +34,13 @@ const Login = () => {
         setError(false)
         navigate('/dashboard')
         dispatch(resetStatus())
-      }, delay)
+      }, 3000)
     } else if (status === 'FAILED') {
       setTimeout(() => {
         setError(true)
         dispatch(resetStatus())
         dispatch(closeSpinner())
-      }, delay)
+      }, 3000)
     }
   }, [dispatch, status, navigate])
   return (
