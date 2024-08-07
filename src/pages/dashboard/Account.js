@@ -13,20 +13,23 @@ const Account = () => {
   const currencyParams = new URLSearchParams(location.search)
   const accountList = useSelector(accounts)
   const navigate = useNavigate()
-  const currency = currencyParams.get('currency')
+  const currency = currencyParams.get('currency') || 'USD'
   const currentTabStyle = 'bg-white '
-  const [currentAccount, setCurrentAccount] = useState(accountList.filter((acc) => acc.currencyType == currency)[0])
-  const navigateCurrency = (currencyType) => {
-    navigate(`/dashboard/accounts?currency=${currencyType}`)
+  const [currentAccount, setCurrentAccount] = useState(null)
+  const navigateCurrency = (code) => {
+    navigate(`/dashboard/accounts?currency=${code}`)
   }
   const navigatePage = (path) => {
     navigate(path)
   }
   const [showForm, setShowForm] = useState(false)
   const [showWithdrawForm, setShowWithdrawForm] = useState(false)
+  const handleShowForm = () => {
+    setShowForm(true)
+  }
   useEffect(() => {
-    setCurrentAccount(accountList.filter((acc) => acc.currencyType == currency)[0])
-  }, [currency])
+    setCurrentAccount(accountList.filter((acc) => acc.code == currency)[0])
+  }, [currency, accountList])
   const currentPageStyle = showForm || showWithdrawForm ? 'hidden' : 'flex';
   return (
     <section>
@@ -36,12 +39,12 @@ const Account = () => {
         
         <div className='w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <p className='font-bold text-gray-600 text-sm'>Balances ({accountList.length})</p>
-          <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out' onClick={() => setShowForm(true)}><FaPlus /><span>Create New Account</span></button>
+          <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out' onClick={handleShowForm}><FaPlus /><span>Create New Account</span></button>
         </div>
         
-        {accountList > 0 && <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
+        {accountList.length > 0 && <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
           <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2'>
-            {accountList.map((acc, id) => <button key={id} className={`p-2 rounded-lg pt-2 pb-2 hover:bg-white ${currency == acc.currencyType ?  currentTabStyle : ''} `}onClick={() => navigateCurrency(acc.currencyType)}>{acc.currencyType}</button>)}
+            {accountList.map((acc, id) => <button key={id} className={`p-2 rounded-lg pt-2 pb-2 hover:bg-white ${currency == acc.code ?  currentTabStyle : ''} `}onClick={() => navigateCurrency(acc.code)}>{acc.code}</button>)}
           </div>
         </div>}
         {currentAccount && <><div className='flex flex-col items-center object-cover gap-5 justify-center'>

@@ -12,7 +12,7 @@ import Profile from './dashboard/Profile'
 import Convert from './dashboard/Convert'
 import { fetchedUser } from '../features/users/usersSlice'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchAccounts } from '../features/accounts/accountSlice'
+import { fetchAccounts, resetAccountStatus } from '../features/accounts/accountSlice'
 import Spinner from '../components/Spinner'
 
 const Dashboard = () => {
@@ -25,6 +25,7 @@ const Dashboard = () => {
       return
     }
     dispatch(fetchAccounts())
+    dispatch(resetAccountStatus())
   }, [user, navigate])
   return (
     <main className="font-roboto lg:ml-250">
