@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { store } from './app/store';
 import Redirect from './pages/Redirect';
 import RegisterSuccessful from './pages/RegisterSuccessful';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
   const router = createBrowserRouter([
@@ -16,7 +17,7 @@ function App() {
     },
     {
       path: '/dashboard/*',
-      element: <Dashboard />
+      element: <ProtectedRoute><Dashboard /></ProtectedRoute>
     }, 
     {
       path: '/login',

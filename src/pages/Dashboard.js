@@ -20,10 +20,6 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
-    if (!sessionStorage.getItem('user')) {
-      navigate('/login')
-      return
-    }
     dispatch(fetchAccounts())
     dispatch(resetAccountStatus())
   }, [user, navigate])
