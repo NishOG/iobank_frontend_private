@@ -125,6 +125,18 @@ export const accounsSlice = createSlice(
             state.status = 'FAILED';
             console.log('Account holder search failed:', action.error);
           })
+          .addCase(transferFunds.pending, (state) => {
+            state.status = 'PENDING';
+          })
+          .addCase(transferFunds.fulfilled, (state, action) => {
+            state.status = 'SUCCESS';
+            console.log(`Current State: ${state.status}`)
+            state.transactions.push(action.payload)
+          })
+          .addCase(transferFunds.rejected, (state, action) => {
+            state.status = 'FAILED';
+            console.log('Account holder search failed:', action.error);
+          })
       }
     }
 )

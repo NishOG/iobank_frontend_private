@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { showSpinner, openSpinner, closeSpinner } from '../../features/page/pageSlice'
-import { accounts, fetchAccountHolder, fetchAccountStatus, fetchRecipient, resetRecipient, resetAccountStatus } from '../../features/accounts/accountSlice'
+import { accounts, fetchAccountHolder, fetchAccountStatus, fetchRecipient, resetRecipient, resetAccountStatus, transferFunds } from '../../features/accounts/accountSlice'
 import Spinner from '../Spinner'
 
 
@@ -20,7 +20,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   const enableInputs = recipient ? false : true
   const enableSpinner = useSelector(showSpinner)
   const [code, setCode] = useState('USD')
-  const [fromAccount, setFromAccount] = useState(accountList.filter(acc => acc.code === code)[0])
+  const [fromAccount, setFromAccount] = useState(accountList[0])
   const setAccount = (e) => {
     setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
     setCode(e.target.value)
@@ -39,6 +39,11 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   const closeWithdrawForm = () => {
     dispatch(resetRecipient())
     setShowWithdrawForm(false)
+  }
+  const transfer = () => {
+    const details = {amount: amount, sender: fromAccount.accountNumber, receiver: recipient.accountNumber }
+    dispatch(openSpinner())
+    dispatch(transferFunds(details))
   }
   useEffect(() => {
     if (status === 'SUCCESS') {
@@ -97,10 +102,10 @@ const Withdraw = ({ setShowWithdrawForm }) => {
           </div>
           <div className='flex flex-col gap-2'>
             <label htmlFor='amount' className=''>Amount</label>
-            <input disabled={enableInputs} type='number' placeholder='100' className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md' />
+            <input value={amount} onChange={(e) => setAmount(e.target.value)} disabled={enableInputs} type='number' placeholder='100' className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md' />
           </div>
         </div>
-        <button disabled={enableInputs} value={amount} onChange={(e) => setFromAccount(e.target.value)} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
+        <button disabled={enableInputs} value={amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
       </form>
     </section>
   )
