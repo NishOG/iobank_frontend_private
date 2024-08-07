@@ -3,13 +3,12 @@ import { FaTimes } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { showSpinner, openSpinner, closeSpinner } from '../../features/page/pageSlice'
 import { accounts, fetchAccountHolder, fetchAccountStatus, fetchRecipient, resetRecipient, resetAccountStatus } from '../../features/accounts/accountSlice'
-import { spinnerDelay } from '../../features/page/pageSlice'
 import Spinner from '../Spinner'
 
 
 const Withdraw = ({ setShowWithdrawForm }) => {
   const dispatch = useDispatch()
-  const delay = useSelector(spinnerDelay)
+  const [amount, setAmount] = useState(0.00)
   const accountList = useSelector(accounts)
   const status = useSelector(fetchAccountStatus)
   const recipient = useSelector(fetchRecipient)
@@ -23,20 +22,17 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   const [code, setCode] = useState('USD')
   const [fromAccount, setFromAccount] = useState(accountList.filter(acc => acc.code === code)[0])
   const setAccount = (e) => {
-    console.log(e.target.value)
     setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
     setCode(e.target.value)
   }
   const findRecipient = () => {
     const details = {...transactionInfo, currency: fromAccount.code}
-    console.log(details)
     dispatch(openSpinner())
     dispatch(fetchAccountHolder(details))
   }
   const handleInputChange = (e) => {
     setTransactionInfo({...transactionInfo, accountNumber: e.target.value})
     const details = {accountNumber: e.target.value, currency: fromAccount.code}
-    console.log(details)
     dispatch(openSpinner())
     dispatch(fetchAccountHolder(details))
   }
@@ -104,7 +100,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
             <input disabled={enableInputs} type='number' placeholder='100' className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md' />
           </div>
         </div>
-        <button disabled={enableInputs} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
+        <button disabled={enableInputs} value={amount} onChange={(e) => setFromAccount(e.target.value)} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
       </form>
     </section>
   )

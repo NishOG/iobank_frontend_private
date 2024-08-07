@@ -48,6 +48,18 @@ export const fetchAccountHolder = createAsyncThunk("accounts/find", async (detai
     throw new Error(err.message)
   }
 })
+
+export const transferFunds = createAsyncThunk("accounts/transfer", async (details) => {
+  try{
+    const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
+    console.log(`Transfer Details: ${JSON.stringify(details)}`)
+    const {data, error} = await api.post('/accounts/transfer', details, headers)
+    if(error) throw error;
+    return data
+  } catch(err) {
+    throw new Error(err.message)
+  }
+ });
 export const accounsSlice = createSlice(
     {
       name: "accounts",
