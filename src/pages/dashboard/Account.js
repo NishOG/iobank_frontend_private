@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { FaExchangeAlt, FaPlus } from 'react-icons/fa'
 import Transaction from './Transaction'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { accounts } from '../../features/accounts/accountSlice'
-import { useSelector } from 'react-redux'
+import { accounts, resetAccountStatus } from '../../features/accounts/accountSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import Withdraw from '../../components/account/Withdraw'
 import NewAccount from '../../components/account/NewAccount'
 import AccountDetails from '../../components/account/AccountDetails'
@@ -13,6 +13,7 @@ const Account = () => {
   const currencyParams = new URLSearchParams(location.search)
   const accountList = useSelector(accounts)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const currency = currencyParams.get('currency') || 'USD'
   const currentTabStyle = 'bg-white '
   const [currentAccount, setCurrentAccount] = useState(null)
@@ -29,6 +30,7 @@ const Account = () => {
   }
   useEffect(() => {
     setCurrentAccount(accountList.filter((acc) => acc.code == currency)[0])
+    dispatch(resetAccountStatus())
   }, [currency, accountList])
   const currentPageStyle = showForm || showWithdrawForm ? 'hidden' : 'flex';
   return (

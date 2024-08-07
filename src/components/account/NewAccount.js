@@ -20,8 +20,8 @@ const NewAccount = ({ setShowForm }) => {
         {code: 'NGN', symbol: '₦', label: 'Nigerian Naira'},
         {code: 'EURO', symbol: '€', label: 'European Euro'},
         {code: 'GPB', symbol: '£', label: 'British Pounds'},
-        {code: 'INR', symbol: '$', label: 'Indian Rupee'},
-        {code: 'CNY', symbol: '$', label: 'Chinese Yuan'}
+        {code: 'INR', symbol: '₹', label: 'Indian Rupee'},
+        {code: 'CNY', symbol: '¥', label: 'Chinese Yuan'}
     ])
     const handleSelectChange = (e) => {
         setCurrency(e.target.value)

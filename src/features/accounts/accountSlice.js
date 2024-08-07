@@ -4,6 +4,8 @@ import ng from '../../img/ng.png';
 import us from '../../img/us.png';
 import gb from '../../img/gb.png';
 import eu from '../../img/eu.png';
+import cn from '../../img/cn.png';
+import ind from '../../img/in.png';
 
 const initialState = {
   accounts: [],
@@ -63,6 +65,8 @@ export const accounsSlice = createSlice(
               if (acc.code === 'NGN') flag = ng
               if (acc.code === 'EURO') flag = eu
               if (acc.code === 'GPB') flag = gb
+              if (acc.code === 'INR') flag = ind
+              if (acc.code === 'CNY') flag = cn
               return {...acc, flag}
             })
             state.accounts = accounts; 
@@ -76,7 +80,6 @@ export const accounsSlice = createSlice(
           })
           .addCase(createAccount.fulfilled, (state, action) => {
             state.status = 'SUCCESS';
-            console.log(`Account created successfully: ${JSON.stringify(action.payload)}`)
             state.accounts.push(action.payload)
           })
           .addCase(createAccount.rejected, (state, action) => {
