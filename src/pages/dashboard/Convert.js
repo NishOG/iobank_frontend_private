@@ -3,13 +3,14 @@ import { FaPiggyBank, FaExchangeAlt } from 'react-icons/fa'
 import Spinner from '../../components/Spinner'
 import { closeSpinner } from '../../features/page/pageSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { exchangeRates, fetchAccountStatus, getExchangeRate, resetAccountStatus } from '../../features/accounts/accountSlice'
+import { accounts, exchangeRates, fetchAccountStatus, getExchangeRate, resetAccountStatus } from '../../features/accounts/accountSlice'
 
 const Convert = () => {
     const dispatch = useDispatch()
+    const accountList = useSelector(accounts)
     const rates = useSelector(exchangeRates)
-    const [toCurrency, setToCurrency] = useState('USD')
-    const [fromCurrency, setFromCurrency] = useState('EUR')
+    const [toCurrency, setToCurrency] = useState(null)
+    const [fromCurrency, setFromCurrency] = useState(null)
 
     const switchCurrencies = () => {
         setFromCurrency(toCurrency)
@@ -17,8 +18,9 @@ const Convert = () => {
     }
     const status = useSelector(fetchAccountStatus)
     useEffect(() => {
-      if(rates === null) dispatch(getExchangeRate())
+      rates || dispatch(getExchangeRate()) 
       if (status === 'SUCCESS') { 
+          console.log(rates.EUR)
           setTimeout(() => {
               dispatch(closeSpinner());
               dispatch(resetAccountStatus());
@@ -43,26 +45,25 @@ const Convert = () => {
             <div className='border border-gray-300 rounded-md focus-within:border-gray-900 focus-within:border-2'>
                 <label htmlFor='from' className='sr-only'>From</label>
                 <select id='from' value={fromCurrency} className='bg-gray-200 h-full p-2 lg:p-3 border-none focus:outline-none' onChange={(e) => setFromCurrency(e.target.value)}>
-                    <option value='USD'>USD</option>
-                    <option value='EUR'>EUR</option>
-                    <option value='GBP'>GBP</option>
-                    <option value='JPY'>JPY</option>
+                  {accountList.map(acc => (
+                      <option key={acc.code} value={acc.code}>{acc.code}</option>
+                  ))}
                 </select>
                 <label htmlFor='from' className='sr-only'>{fromCurrency}</label>
-                <input type='number' placeholder='100' className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
+                <input type='number' placeholder={fromCurrency && rates[fromCurrency] || 100} className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
             </div>
             <button onClick={switchCurrencies} type='button'><FaExchangeAlt className='text-blue-500 transform rotate-90' size={25}/></button>
             <div className='border border-gray-300 rounded-md focus-within:border-gray-700 focus-within:border-2'>
                 <label htmlFor='from' className='sr-only'>to</label>
                 <select id='from' value={toCurrency} className='bg-gray-200 h-full p-2 lg:p-3 border-none focus:outline-none' onChange={(e) => setToCurrency(e.target.value)}>
-                    <option value='USD'>USD</option>
-                    <option value='EUR'>EUR</option>
-                    <option value='GBP'>GBP</option>
-                    <option value='JPY'>JPY</option>
+                  {accountList.map(acc => (
+                      <option key={acc.code} value={acc.code}>{acc.code}</option>
+                  ))}
                 </select>
                 <label htmlFor='from' className='sr-only'>{toCurrency}</label>
-                <input disabled type='number' placeholder='100' className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
+                <input disabled type='number' placeholder={toCurrency && rates[toCurrency] || 100}  className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
             </div>
+            {fromCurrency && toCurrency && <p>1{fromCurrency} = {`${rates[toCurrency]/rates[fromCurrency]} ${toCurrency}`}</p>}
         </div>
         <button type="button" className='w-full bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Convert</button>
       </form>

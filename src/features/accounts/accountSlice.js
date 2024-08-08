@@ -104,7 +104,7 @@ export const accounsSlice = createSlice(
               if (acc.code === 'USD') flag = us
               if (acc.code === 'NGN') flag = ng
               if (acc.code === 'EUR') flag = eu
-              if (acc.code === 'GPB') flag = gb
+              if (acc.code === 'GBP') flag = gb
               if (acc.code === 'INR') flag = ind
               if (acc.code === 'CNY') flag = cn
               return {...acc, flag}
@@ -168,7 +168,7 @@ export const accounsSlice = createSlice(
 export const fetchAccountStatus = state => state.accounts.status
 export const { addAccount, addTransaction, resetAccountStatus, resetRecipient } = accounsSlice.actions
 export const fetchRecipient = state => state.accounts.recipientAccount
-export const exchangeRates = state => state.rates
+export const exchangeRates = state => state.accounts.rates
 
 export default accounsSlice.reducer
 export const accounts = state => state.accounts.accounts
