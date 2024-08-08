@@ -10,6 +10,7 @@ import ind from '../../img/in.png';
 const initialState = {
   accounts: [],
   transactions: [],
+  rates: null,
   status: 'IDLE', // IDLE, PENDING, SUCCESS, or ERROR
   recipientAccount: null
 };
@@ -60,6 +61,18 @@ export const transferFunds = createAsyncThunk("accounts/transfer", async (detail
     throw new Error(err.message)
   }
  });
+
+ export const getExchangeRate = createAsyncThunk("accounts/getExchangeRate", async () => {
+    try{
+      const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
+      const {data, error} = await api.get(`/accounts/rates`, headers)
+      if(error) throw error;
+      console.log(data)
+      return data
+    } catch(err) {
+      throw new Error(err.message)
+    }
+ })
 export const accounsSlice = createSlice(
     {
       name: "accounts",
@@ -137,13 +150,25 @@ export const accounsSlice = createSlice(
             state.status = 'FAILED';
             console.log('Account holder search failed:', action.error);
           })
+          .addCase(getExchangeRate.pending, (state) => {
+            state.status = 'PENDING';
+          })
+          .addCase(getExchangeRate.fulfilled, (state, action) => {
+            state.status = 'SUCCESS';
+            state.rates = action.payload
+          })
+          .addCase(getExchangeRate.rejected, (state, action) => {
+            state.status = 'FAILED';
+            console.log('Account holder search failed:', action.error);
+          })
       }
     }
 )
 
 export const fetchAccountStatus = state => state.accounts.status
-export const { addAccount, addTransaction, resetAccountStatus, resetRecipient } = accounsSlice.actions;
-export const fetchRecipient = state => state.accounts.recipientAccount;
+export const { addAccount, addTransaction, resetAccountStatus, resetRecipient } = accounsSlice.actions
+export const fetchRecipient = state => state.accounts.recipientAccount
+export const exchangeRates = state => state.rates
 
-export default accounsSlice.reducer;
+export default accounsSlice.reducer
 export const accounts = state => state.accounts.accounts

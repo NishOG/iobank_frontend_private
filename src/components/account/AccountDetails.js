@@ -3,7 +3,6 @@ import React from 'react'
 const AccountDetails = ({ currentAccount }) => {
   return (
     <>
-      
       <p className='font-bold text-gray-600 text-sm'>Your {currentAccount.currencyType} Account Informations</p>
         <div className='flex flex-col sm:flex-row  sm:flex-wrap'>
           <div className='min-w-200 flex flex-col gap-4 pt-6 w-1/3'>

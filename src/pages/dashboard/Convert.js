@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaPiggyBank, FaExchangeAlt } from 'react-icons/fa'
+import Spinner from '../../components/Spinner'
+import { closeSpinner } from '../../features/page/pageSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { exchangeRates, fetchAccountStatus, getExchangeRate, resetAccountStatus } from '../../features/accounts/accountSlice'
 
 const Convert = () => {
+    const dispatch = useDispatch()
+    const rates = useSelector(exchangeRates)
     const [toCurrency, setToCurrency] = useState('USD')
     const [fromCurrency, setFromCurrency] = useState('EUR')
 
@@ -9,8 +15,24 @@ const Convert = () => {
         setFromCurrency(toCurrency)
         setToCurrency(fromCurrency)
     }
+    const status = useSelector(fetchAccountStatus)
+    useEffect(() => {
+      if(rates === null) dispatch(getExchangeRate())
+      if (status === 'SUCCESS') { 
+          setTimeout(() => {
+              dispatch(closeSpinner());
+              dispatch(resetAccountStatus());
+          }, 3000);
+      }
+      if (status === 'FAILED') {
+          dispatch(closeSpinner());
+          dispatch(resetAccountStatus());
+          alert('Account Creation Failed');
+      }
+    }, [dispatch, status])
   return (
-    <section className='flex flex-col p-2 gap-8 sm:w-full sm:p-6 items-center justify-center sm:left-auto h-4/5 mt-12'>
+    <section className='flex flex-col p-2 gap-8 sm:w-full sm:p-6 items-center justify-center sm:left-auto h-4/5 mt-12 relative'>
+      <Spinner />
         <h1 className='text-xl font-bold flex flex-col items-center'>
             <FaPiggyBank size={40}/>
             IO-BANK
@@ -42,7 +64,6 @@ const Convert = () => {
                 <input disabled type='number' placeholder='100' className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
             </div>
         </div>
-
         <button type="button" className='w-full bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Convert</button>
       </form>
     </section>
