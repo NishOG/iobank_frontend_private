@@ -37,7 +37,6 @@ const Register = () => {
       return
     }
     dispatch(openSpinner())
-    console.log('Signing Up...')
     dispatch(registerUser(user)) // Dispatch action to register user in the Redux store
   }
   const handleInputChange = (e) => {
@@ -48,14 +47,12 @@ const Register = () => {
   useEffect(() => {
     if (status === 'SUCCESS') {
       setTimeout(() => {
-        console.log('Registration successful!');
         dispatch(closeSpinner());
         dispatch(resetStatus())
         navigate('/successful');
       }, delay)
     } else if (status === 'FAILED') {
       setTimeout(() => {
-        console.log('Registration failed!');
         dispatch(closeSpinner());
         dispatch(resetStatus())
       }, delay);

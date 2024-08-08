@@ -53,29 +53,22 @@ export const userSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(authenticateUser.pending, (state) => {
-                    console.log(`Authentication Status: Pending`)
                     state.status = 'PENDING'
                 })
                 .addCase(authenticateUser.fulfilled, (state, action) => {
                     state.user = action.payload
-                    console.log(`Header Details`)
                     state.status = 'SUCCESS'
                 })
                 .addCase(authenticateUser.rejected, (state) => {
-                    console.log(`Authentication Status: Failed`)
                     state.status = 'FAILED'
                 })
                 .addCase(registerUser.pending, (state) => {
-                    console.log(`Status: Pending`)
                     state.status = 'PENDING'
                 })
                 .addCase(registerUser.fulfilled, (state) => {
                     state.status = 'SUCCESS'
-                    console.log(`Status: success`)
-                    console.log(state.status)
                 })
                 .addCase(registerUser.rejected, (state) =>{ 
-                    console.log(`Status: Failed`)
                     state.status = 'FAILED'
                 })
     }

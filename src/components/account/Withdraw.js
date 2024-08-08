@@ -41,6 +41,11 @@ const Withdraw = ({ setShowWithdrawForm }) => {
     setShowWithdrawForm(false)
   }
   const transfer = () => {
+    if(amount > fromAccount.balance) {
+      alert('Insufficient funds')
+      return;
+    }
+    alert(fromAccount.balance)
     const details = {amount: amount, sender: fromAccount.accountNumber, receiver: recipient.accountNumber }
     dispatch(openSpinner())
     dispatch(transferFunds(details))
@@ -103,9 +108,10 @@ const Withdraw = ({ setShowWithdrawForm }) => {
           <div className='flex flex-col gap-2'>
             <label htmlFor='amount' className=''>Amount</label>
             <input value={amount} onChange={(e) => setAmount(e.target.value)} disabled={enableInputs} type='number' placeholder='100' className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md' />
+            <p className='text-[12px] flex-1 w-full flex justify-end'>You'll be charged {`${fromAccount.symbol} ${amount * 0.01}`}</p>
           </div>
         </div>
-        <button disabled={enableInputs} value={amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
+        <button disabled={enableInputs && fromAccount && fromAccount.balance > transactionInfo.amount} value={amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
       </form>
     </section>
   )

@@ -90,7 +90,7 @@ export const accounsSlice = createSlice(
               let flag = us
               if (acc.code === 'USD') flag = us
               if (acc.code === 'NGN') flag = ng
-              if (acc.code === 'EURO') flag = eu
+              if (acc.code === 'EUR') flag = eu
               if (acc.code === 'GPB') flag = gb
               if (acc.code === 'INR') flag = ind
               if (acc.code === 'CNY') flag = cn

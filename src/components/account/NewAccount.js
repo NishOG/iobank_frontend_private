@@ -9,8 +9,6 @@ import { openSpinner, closeSpinner, showSpinner, spinnerDelay } from '../../feat
 const NewAccount = ({ setShowForm }) => {
     const dispatch = useDispatch()
     const delay = useSelector(spinnerDelay)
-    //For Reasons yet unknown I need to included this here to ensure that the dispatch state at first instant is IDLE
-    // dispatch(resetAccountStatus())
     const status = useSelector(fetchAccountStatus)
     const enableSpinner = useSelector(showSpinner)
     const accountsList = useSelector(accounts)
@@ -18,7 +16,7 @@ const NewAccount = ({ setShowForm }) => {
     const [accountType, setAccountType] = useState([
         {code: 'USD', symbol: '$', label: 'United States Dollar'},
         {code: 'NGN', symbol: '₦', label: 'Nigerian Naira'},
-        {code: 'EURO', symbol: '€', label: 'European Euro'},
+        {code: 'EUR', symbol: '€', label: 'European Euro'},
         {code: 'GPB', symbol: '£', label: 'British Pounds'},
         {code: 'INR', symbol: '₹', label: 'Indian Rupee'},
         {code: 'CNY', symbol: '¥', label: 'Chinese Yuan'}
@@ -40,8 +38,6 @@ const NewAccount = ({ setShowForm }) => {
                 setShowForm(false);
                 dispatch(resetAccountStatus());
             }, 3000);
-            console.log(status)
-            console.log('Account created successfully');
         }
         if (status === 'FAILED') {
             dispatch(closeSpinner());
@@ -49,9 +45,7 @@ const NewAccount = ({ setShowForm }) => {
             alert('Account Creation Failed');
         }
         const updateList = () => {
-            console.log(accountTypeList)
             const filteredList = accountType.filter(account => !accountTypeList.includes(account.code) ? account.code : null)
-            console.log(filteredList)
             setAccountType(filteredList)
             filteredList.length > 0 && setCurrency(filteredList[0].code)
         }
@@ -60,20 +54,19 @@ const NewAccount = ({ setShowForm }) => {
     
   return (
       <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto h-2/5 mt-12'>
-      <form className='p-2 w-full flex flex-col justify-between h-full relative'>
-        {enableSpinner && <Spinner />}
-        <button className='absolute top-1 right-2' type='button' onClick={() => setShowForm(false)}><FaTimes /></button>
-        <div className='flex flex-col gap-4'>
-            <label>Choose Currency Type</label>
-            <select className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none gap-4' value={currency} onChange={handleSelectChange}>
-                {accountType.map(type => (
-                    <option key={type.code} value={type.code}>{type.label}</option>
-                ))}
-            </select>
-        </div>
-
-        <button type="button" onClick={create} className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Create Bank Account</button>
-      </form>
+        <form className='p-2 w-full flex flex-col justify-between h-full relative'>
+            {enableSpinner && <Spinner />}
+            <button className='absolute top-1 right-2' type='button' onClick={() => setShowForm(false)}><FaTimes /></button>
+            <div className='flex flex-col gap-4'>
+                <label>Choose Currency Type</label>
+                <select className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none gap-4' value={currency} onChange={handleSelectChange}>
+                    {accountType.map(type => (
+                        <option key={type.code} value={type.code}>{type.label}</option>
+                    ))}
+                </select>
+            </div>
+            <button type="button" onClick={create} className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Create Bank Account</button>
+        </form>
       </section>
   )
 }

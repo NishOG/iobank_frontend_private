@@ -14,7 +14,7 @@ const Account = () => {
   const accountList = useSelector(accounts)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const currency = currencyParams.get('currency') || accountList[0].code
+  const currency = currencyParams.get('currency') || accountList.length > 0 && accountList[0].code
   const currentTabStyle = 'bg-white '
   const [currentAccount, setCurrentAccount] = useState(null)
   const navigateCurrency = (code) => {
