@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { showSpinner, openSpinner, closeSpinner } from '../../features/page/pageSlice'
@@ -17,7 +17,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
     amount: '',
     currency: 'USD',
   })
-  const enableInputs = recipient ? false : true
+  const enableInputs = useMemo(() => recipient ? false : true, [recipient])
   const enableSpinner = useSelector(showSpinner)
   const [code, setCode] = useState('USD')
   const [fromAccount, setFromAccount] = useState(accountList[0])

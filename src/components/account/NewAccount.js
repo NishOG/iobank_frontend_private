@@ -4,11 +4,10 @@ import { accounts, fetchAccountStatus, resetAccountStatus, createAccount, fetchA
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import Spinner from '../Spinner'
-import { openSpinner, closeSpinner, showSpinner, spinnerDelay } from '../../features/page/pageSlice'
+import { openSpinner, closeSpinner, showSpinner } from '../../features/page/pageSlice'
 
 const NewAccount = ({ setShowForm }) => {
     const dispatch = useDispatch()
-    const delay = useSelector(spinnerDelay)
     const status = useSelector(fetchAccountStatus)
     const enableSpinner = useSelector(showSpinner)
     const accountsList = useSelector(accounts)
@@ -17,7 +16,7 @@ const NewAccount = ({ setShowForm }) => {
         {code: 'USD', symbol: '$', label: 'United States Dollar'},
         {code: 'NGN', symbol: '₦', label: 'Nigerian Naira'},
         {code: 'EUR', symbol: '€', label: 'European Euro'},
-        {code: 'GPB', symbol: '£', label: 'British Pounds'},
+        {code: 'GBP', symbol: '£', label: 'British Pounds'},
         {code: 'INR', symbol: '₹', label: 'Indian Rupee'},
         {code: 'CNY', symbol: '¥', label: 'Chinese Yuan'}
     ])
