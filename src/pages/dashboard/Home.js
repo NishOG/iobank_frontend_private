@@ -21,7 +21,7 @@ const Home = () => {
                 <img className='w-full h-full object-cover' src={acc.flag}/>
                 <p className='text-sm'>{acc.label}</p>
                 <div className='flex flex-1 w-full justify-between'>
-                  <p>{acc.symbol}{acc.balance}</p>
+                  <p>{acc.symbol}{acc.balance.toString().substring(0,8)}</p>
                   <p>{acc.code}</p>
                 </div>
             </div>)

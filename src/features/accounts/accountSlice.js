@@ -73,6 +73,18 @@ export const transferFunds = createAsyncThunk("accounts/transfer", async (detail
       throw new Error(err.message)
     }
  })
+
+ export const convertCurrency = createAsyncThunk("acccounts/convertCurrency", async (details) => {
+  try{
+    const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
+    console.log(`Conversion Details: ${JSON.stringify(details)}`)
+    const {data, error} = await api.post('/accounts/convert', details, headers)
+    if(error) throw error;
+    return data
+  } catch(err) {
+    throw new Error(err.message)
+  }
+ })
 export const accounsSlice = createSlice(
     {
       name: "accounts",
@@ -160,6 +172,18 @@ export const accounsSlice = createSlice(
           .addCase(getExchangeRate.rejected, (state, action) => {
             state.status = 'FAILED';
             console.log('Account holder search failed:', action.error);
+          })
+          .addCase(convertCurrency.pending, (state) => {
+            state.status = 'PENDING';
+          })
+          .addCase(convertCurrency.fulfilled, (state, action) => {
+            state.status = 'SUCCESS';
+            console.log(`Transaction Details: ${JSON.stringify(action.payload)}`)
+            state.transactions.push(action.payload)
+          })
+          .addCase(convertCurrency.rejected, (state, action) => {
+            state.status = 'FAILED';
+            console.log('Conversion Between Pairs Failed:', action.error);
           })
       }
     }

@@ -29,7 +29,7 @@ const Account = () => {
     setShowForm(true)
   }
   useEffect(() => {
-    setCurrentAccount(accountList.filter((acc) => acc.code == currency)[0])
+    setCurrentAccount(accountList.filter((acc) => acc.code === currency)[0])
     dispatch(resetAccountStatus())
   }, [currency, accountList])
   const currentPageStyle = showForm || showWithdrawForm ? 'hidden' : 'flex';
@@ -46,13 +46,13 @@ const Account = () => {
         
         {accountList.length > 0 && <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
           <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2'>
-            {accountList.map((acc, id) => <button key={id} className={`p-2 rounded-lg pt-2 pb-2 hover:bg-white ${currency == acc.code ?  currentTabStyle : ''} `}onClick={() => navigateCurrency(acc.code)}>{acc.code}</button>)}
+            {accountList.map((acc, id) => <button key={id} className={`p-2 rounded-lg pt-2 pb-2 hover:bg-white ${currency === acc.code ?  currentTabStyle : ''} `}onClick={() => navigateCurrency(acc.code)}>{acc.code}</button>)}
           </div>
         </div>}
         {currentAccount && <><div className='flex flex-col items-center object-cover gap-5 justify-center'>
           <img src={currentAccount.flag} className='w-30 h-10 rounded-md'/>
           <p className='text-2xl font-bold text-gray-400'>Available Balance</p>
-          <p className='text-3xl font-bold text-gray-600 p-2'>{`${currentAccount.symbol} ${currentAccount.balance}`}</p>
+          <p className='text-3xl font-bold text-gray-600 p-2'>{`${currentAccount.symbol} ${currentAccount.balance.toString().substring(0,8)}`}</p>
         </div>
         
         <div className='text-sm sm:text-xl p-2 rounded-xl flex gap-2'>

@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FaPiggyBank, FaExchangeAlt, FaSync } from 'react-icons/fa'
+import { FaExchangeAlt, FaSync } from 'react-icons/fa'
 import Spinner from '../../components/Spinner'
 import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { accounts, exchangeRates, fetchAccountStatus, getExchangeRate, resetAccountStatus } from '../../features/accounts/accountSlice'
+import { accounts, exchangeRates, fetchAccountStatus, getExchangeRate, resetAccountStatus, convertCurrency, fetchAccounts } from '../../features/accounts/accountSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Convert = () => {
     const enableSpinner = useSelector(showSpinner)
@@ -16,7 +17,7 @@ const Convert = () => {
     const [fromCurrency, setFromCurrency] = useState('')
     const [fromValue, setFromValue] = useState('')
     const [fromAccount, setFromAccount] = useState(null)
-    // const exchangeValue = rates ? 1 * rates[toCurrency] : 0
+    const navigate = useNavigate()
     const switchCurrencies = () => {
         setFromCurrency(toCurrency)
         setToCurrency(fromCurrency)
@@ -33,7 +34,7 @@ const Convert = () => {
       }
       const selectedAccount = accountList.filter(account => account.code === fromCurrency)[0]
       setFromAccount(selectedAccount);
-      setRate(rates[fromCurrency] / rates[toCurrency]);
+      setRate(rates[toCurrency] / rates[fromCurrency]);
       const convertedValue = (fromValue / rates[fromCurrency]) * rates[toCurrency];
       return convertedValue.toString().substring(0, 10)
     }, [fromValue, fromCurrency, toCurrency, rates]);
@@ -48,13 +49,30 @@ const Convert = () => {
     const currencyOptions = accountList.map(acc => (
       <option key={acc.code} value={acc.code}>{acc.code}</option>
     ))
-
+    
+    const convert = () => {
+      dispatch(openSpinner())
+      const receivingAccount = accountList.filter(acc => acc.code === toCurrency)[0]
+      const details = {
+        sender: fromAccount.accountNumber,
+        receiver: receivingAccount.accountNumber,
+        amount: fromValue
+      }
+      console.log(JSON.stringify(details))
+      dispatch(convertCurrency(details))
+      setTimeout(() => {
+        dispatch(fetchAccounts())
+        navigate('/dashboard')
+      }, 2000)
+    }
     useEffect(() => {
       if(accountList.length < 1){ 
         dispatch(openSpinner())
       }
       else {
-        dispatch(closeSpinner());
+        setTimeout(() => {
+          dispatch(closeSpinner())
+        }, 2000)
         fromAccount || setFromAccount(accountList[0])
         fromCurrency || setFromCurrency(accountList[0].code)
         toCurrency || setToCurrency(accountList[0].code)
@@ -103,7 +121,10 @@ const Convert = () => {
               </div>
             )}
         </div>
-        <button disabled={disableConvertButton} type="button" className='w-full bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Convert</button>
+        <button disabled={disableConvertButton} 
+          type="button" 
+          onClick={convert}
+          className='w-full bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Convert</button>
       </form>
     </section>
   )
