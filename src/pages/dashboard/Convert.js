@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FaPiggyBank, FaExchangeAlt } from 'react-icons/fa'
+import { FaPiggyBank, FaExchangeAlt, FaSync } from 'react-icons/fa'
 import Spinner from '../../components/Spinner'
 import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,6 +10,8 @@ const Convert = () => {
     const dispatch = useDispatch()
     const accountList = useSelector(accounts)
     const rates = useSelector(exchangeRates)
+    const [rate, setRate] = useState('')
+    const [isRotating, setIsRotating] = useState(false)
     const [toCurrency, setToCurrency] = useState('')
     const [fromCurrency, setFromCurrency] = useState('')
     const [fromValue, setFromValue] = useState('')
@@ -19,6 +21,11 @@ const Convert = () => {
         setFromCurrency(toCurrency)
         setToCurrency(fromCurrency)
     }
+    const getCurrentExchangeRate = () => {
+      setIsRotating(true)
+      dispatch(getExchangeRate())
+      setTimeout(() => setIsRotating(false), 2000)
+    }
     const status = useSelector(fetchAccountStatus)
     const toValue = useMemo(() => {
       if (!fromCurrency || !toCurrency || !rates || !rates[fromCurrency] || !rates[toCurrency]) {
@@ -26,8 +33,9 @@ const Convert = () => {
       }
       const selectedAccount = accountList.filter(account => account.code === fromCurrency)[0]
       setFromAccount(selectedAccount);
+      setRate(rates[fromCurrency] / rates[toCurrency]);
       const convertedValue = (fromValue / rates[fromCurrency]) * rates[toCurrency];
-      return convertedValue.toString().substring(0, 9)
+      return convertedValue.toString().substring(0, 10)
     }, [fromValue, fromCurrency, toCurrency, rates]);
 
     const disableConvertButton = useMemo(() => {
@@ -47,9 +55,9 @@ const Convert = () => {
       }
       else {
         dispatch(closeSpinner());
-        setFromAccount(accountList[0])
-        setFromCurrency(accountList[0].code)
-        setToCurrency(accountList[0].code)
+        fromAccount || setFromAccount(accountList[0])
+        fromCurrency || setFromCurrency(accountList[0].code)
+        toCurrency || setToCurrency(accountList[0].code)
       }
       if(!rates) dispatch(getExchangeRate()) 
       if (status === 'SUCCESS') { 
@@ -66,10 +74,6 @@ const Convert = () => {
     }, [dispatch, status, accountList, rates])
   return (
     <section className='flex flex-col p-2 gap-8 sm:w-full sm:p-6 items-center justify-center sm:left-auto h-4/5 mt-12 relative'>
-        <h1 className='text-xl font-bold flex flex-col items-center'>
-            <FaPiggyBank size={40}/>
-            IO-BANK
-        </h1>
       <form className='p-2 pt-5 w-full rounded-xl sm:w-3/5 bg-white items-center flex flex-col justify-center h-full relative'>
         {enableSpinner && <Spinner />}
         <h2 className='font-bold'>Convert Currencies</h2>
@@ -93,9 +97,11 @@ const Convert = () => {
                 <input disabled type='number' value={toValue} placeholder={rates && toCurrency && rates[toCurrency]/rates[fromCurrency]} className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
             </div>
             {fromCurrency && toCurrency && rates && rates[toCurrency] && rates[fromCurrency] && (
-              <p>1 {fromCurrency} = {`${rates[toCurrency] / rates[fromCurrency]} ${toCurrency}`.substring(0,9)}</p>
+              <div className='flex gap-2'>
+                <p>1 {fromCurrency} = {rate.toString().substring(0,9)} {toCurrency}</p>
+                <button type='button' onClick={getCurrentExchangeRate}><FaSync size={12} className={isRotating ? 'animate-spin' : ''}/></button>
+              </div>
             )}
-
         </div>
         <button disabled={disableConvertButton} type="button" className='w-full bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Convert</button>
       </form>
