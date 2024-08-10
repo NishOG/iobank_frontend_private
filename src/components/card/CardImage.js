@@ -16,7 +16,7 @@ const CardImage = ({ setShowFundCardForm, setShowWithdrawForm }) => {
                 <div className='w-5 h-5 rounded-xl sm:w-8 sm:h-8 sm:rounded-2xl bg-golden ml-[-8px] sm:ml-[-12px] opacity-70'></div>
             </div>
             <p className='absolute bottom-5 sm:bottom-8 right-7 sm:right-7 p-2 text-sm text-golden'>{userCard.cardHolder}</p>
-            <p className='absolute bottom-5 sm:bottom-8 left-7 sm:left-12 p-2 text-sm text-golden'>{userCard.balance}<span className='text-[9px]'>.50</span></p>
+            <p className='absolute bottom-5 sm:bottom-8 left-7 sm:left-12 p-2 text-sm text-golden'>${userCard.balance}<span className='text-[9px]'>.50</span></p>
           </div>
         </div>
         

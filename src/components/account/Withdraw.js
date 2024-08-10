@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { showSpinner, openSpinner, closeSpinner } from '../../features/page/pageSlice'
-import { accounts, fetchAccountHolder, fetchAccountStatus, fetchRecipient, resetRecipient, resetAccountStatus, transferFunds } from '../../features/accounts/accountSlice'
+import { accounts, fetchAccountHolder, fetchAccountStatus, fetchRecipient, resetRecipient, resetAccountStatus, transferFunds, fetchAccounts } from '../../features/accounts/accountSlice'
 import Spinner from '../Spinner'
+import { useNavigate } from 'react-router-dom'
 
 
 const Withdraw = ({ setShowWithdrawForm }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [amount, setAmount] = useState(0.00)
   const accountList = useSelector(accounts)
   const status = useSelector(fetchAccountStatus)
@@ -33,8 +35,10 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   const handleInputChange = (e) => {
     setTransactionInfo({...transactionInfo, accountNumber: e.target.value})
     const details = {accountNumber: e.target.value, currency: fromAccount.code}
-    dispatch(openSpinner())
-    dispatch(fetchAccountHolder(details))
+    if(e.target.value.toString().length === 10) {
+      dispatch(openSpinner())
+      dispatch(fetchAccountHolder(details))
+    }
   }
   const closeWithdrawForm = () => {
     dispatch(resetRecipient())
@@ -45,10 +49,11 @@ const Withdraw = ({ setShowWithdrawForm }) => {
       alert('Insufficient funds')
       return;
     }
-    alert(fromAccount.balance)
     const details = {amount: amount, sender: fromAccount.accountNumber, receiver: recipient.accountNumber }
     dispatch(openSpinner())
     dispatch(transferFunds(details))
+    dispatch(fetchAccounts())
+    setShowWithdrawForm(false)
   }
   useEffect(() => {
     if (status === 'SUCCESS') {
@@ -64,7 +69,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
         dispatch(resetAccountStatus())
       }, 3000)
     }
-  }, [dispatch, status])
+  }, [dispatch, status, accountList])
   return (
     <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 h-3/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto sm:h-[550px] mt-12'>
       <form className='p-2 w-full flex flex-col justify-between h-full relative'>
