@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { accounts } from '../../features/accounts/accountSlice'
 import { useNavigate } from 'react-router-dom'
-import { createCard } from '../../features/card/cardSlice'
+import { createCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
+import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
+import Spinner from '../Spinner'
 
 const CreateCard = () => {
+    const enablespinner = useSelector(showSpinner)
+    const status = useSelector(fetchCardStatus)
     const dispatch = useDispatch()
     const accountList = useSelector(accounts)
     const [usdAccount, setUsdAccount] = useState(null)
@@ -14,18 +18,33 @@ const CreateCard = () => {
     }
     useEffect(() => {
         setUsdAccount(accountList.filter(account => account.code === 'USD')[0])
-    }, [accountList])
+        if (status === 'SUCCESS') {
+            console.log('Printing out the status of the transzation ' + status)
+            setTimeout(() => {
+            dispatch(closeSpinner())
+            dispatch(resetCardStatus())
+            }, 3000)
+        }
+        if (status === 'FAILED') {
+            setTimeout(() => {
+            dispatch(closeSpinner())
+            dispatch(resetCardStatus())
+            }, 3000)
+        }
+    }, [accountList, status])
     const CreateCardForm = () => {
         const [amount, setAmount] = useState('')
         const setAmountValue = (e) => {
             setAmount(e.target.value)
         }
         const createCreditCard = () => {
+            dispatch(openSpinner())
             dispatch(createCard(amount))
         }
         return <>
             <p className='text-sm sm:text-[16px] text-center'>You'll Be charged a service fee of 1USD for this transaction and a minimum deposit of 1USD for card funding</p>
             <form className='p-2 pt-5 w-full rounded-xl sm:w-3/5 bg-white items-center flex flex-col justify-center h-full relative gap-4'>
+                {enablespinner && <Spinner />}
                 <div className='flex flex-col gap-4 items-center'>
                     <label htmlFor='amount'>Funding Amount</label>
                     <input id='amount' name='amount' type='number' placeholder='Amount To fund Card' className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' 

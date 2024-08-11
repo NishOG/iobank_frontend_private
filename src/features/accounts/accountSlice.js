@@ -167,6 +167,7 @@ export const accounsSlice = createSlice(
           })
           .addCase(getExchangeRate.fulfilled, (state, action) => {
             state.status = 'SUCCESS';
+            console.log(`Exchange Rates: ${JSON.stringify(action.payload)}`)
             state.rates = action.payload
           })
           .addCase(getExchangeRate.rejected, (state, action) => {

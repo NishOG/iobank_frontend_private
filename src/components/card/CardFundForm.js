@@ -16,7 +16,7 @@ const CardFundForm = ({ setShowFundCardForm }) => {
         <div className='flex flex-col gap-2'>
         <label htmlFor='from' className='w-full flex justify-between'><span>Select Account </span><span className='text-sm mt-1'>Balance {account.symbol}{account.balance}</span></label>
             
-            <select id='currency' value={account.code} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md'>
+            <select id='currency' className='bg-gray-200 h-full p-2 lg:p-3 rounded-md'>
               <option value={account.code}>{account.code}</option>
             </select>
         </div>
