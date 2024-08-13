@@ -86,7 +86,7 @@ export const cardSlicer = createSlice(
             .addCase(createCard.fulfilled, (state, action) => {
                 console.log('Card Creation successful')
                 console.log(action.payload)
-                state.card = action.payload
+                state.card = {...action.payload, img: creditCardImage}
                 state.status = 'SUCCESS'
             })
             .addCase(createCard.rejected, (state) => {

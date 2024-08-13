@@ -10,9 +10,9 @@ const Transaction = () => {
     return (
       <tr key={transaction.id} className='flex w-full justify-between p-2 pl-6 pr-6'>
         <td className='flex flex-1 justify-center text-[12px]'>{transaction.initiated.substring(0, 10)}</td>
-        <td className='flex flex-1 justify-center text-[12px]'>{transaction.description}</td>
+        <td className='flex flex-1 justify-center text-[12px] text-center'>{transaction.description}</td>
         <td className='flex flex-1 justify-center text-[12px]'>{transaction.amount}</td>
-        <td className='flex flex-1 justify-center text-[12px]'>{transaction.currency}</td>
+        <td className='flex flex-1 justify-center text-[12px]'>{transaction.type}</td>
         <td className='flex flex-1 justify-center text-[12px]'>{transaction.status}</td>
         <td className='flex flex-1 justify-center text-[12px]'>
           <button className='text-blue-500 hover:text-blue-900 flex items-center text-sm transition duration-500 ease-in-out'>See More
@@ -22,7 +22,7 @@ const Transaction = () => {
     )
   }
   useEffect(() => {
-    dispatch(fetchTransactions(1))
+    dispatch(fetchTransactions(0))
   }, [dispatch])
   return (
     <section id='transaction-section' className='w-full overflow-x-auto sm:flex sm:w-full flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-4 sm:p-6 gap-6 shadow-xl'>
@@ -34,13 +34,13 @@ const Transaction = () => {
                 <th className='flex justify-center flex-1'>Date</th>
                 <th className='flex justify-center flex-1'>Description</th>
                 <th className='flex justify-center flex-1'>Amount</th>
-                <th className='flex justify-center flex-1'>Currency</th>
+                <th className='flex justify-center flex-1'>Type</th>
                 <th className='flex justify-center flex-1'>Status</th>
                 <th className='flex justify-center flex-1'>Info</th>
               </tr>
             </thead>
             <tbody className='flex w-full flex-col'>
-              {transactions.map((transaction) => <TransactionItem transaction={transaction} />)
+              {transactions.map((transaction) => <TransactionItem key={transaction.txId} transaction={transaction} />)
              /* <tr className='flex w-full justify-between p-2 pl-6 pr-6'>
                 <td className='flex justify-between flex-1'>12/01/2022</td>
                 <td className='flex justify-between flex-1'>Deposit</td>
