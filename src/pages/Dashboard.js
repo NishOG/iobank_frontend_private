@@ -12,17 +12,18 @@ import Profile from './dashboard/Profile'
 import Convert from './dashboard/Convert'
 import { fetchedUser } from '../features/users/usersSlice'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchAccounts, resetAccountStatus } from '../features/accounts/accountSlice'
+import { accounts, fetchAccounts, resetAccountStatus } from '../features/accounts/accountSlice'
 import Spinner from '../components/Spinner'
 
 const Dashboard = () => {
   const user = useSelector(fetchedUser)
+  const accountList = useSelector(accounts)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchAccounts())
     dispatch(resetAccountStatus())
-  }, [user, navigate])
+  }, [user, navigate, dispatch])
   return (
     <main className="font-roboto lg:ml-250">
         <section className="font-roboto flex flex-row w-full min-h-screen bg-gradient-to-r from-gray-300 to-white-500 overflow-x-hidden relative">

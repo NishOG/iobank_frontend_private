@@ -66,18 +66,20 @@ const Convert = () => {
       }, 2000)
     }
     useEffect(() => {
-      if(accountList.length < 1){ 
-        dispatch(openSpinner())
-      }
-      else {
-        setTimeout(() => {
-          dispatch(closeSpinner())
-        }, 2000)
-        fromAccount || setFromAccount(accountList[0])
-        fromCurrency || setFromCurrency(accountList[0].code)
-        toCurrency || setToCurrency(accountList[0].code)
-      }
-      if(!rates) dispatch(getExchangeRate()) 
+        if(!rates) dispatch(getExchangeRate()) 
+        if(accountList.length < 1){ 
+            dispatch(openSpinner())
+        }
+        else {
+            setTimeout(() => {
+            dispatch(closeSpinner())
+            }, 2000)
+            fromAccount || setFromAccount(accountList[0])
+            fromCurrency || setFromCurrency(accountList[0].code)
+            toCurrency || setToCurrency(accountList[0].code)
+        }
+    }, [dispatch])
+    useEffect(() => {
       if (status === 'SUCCESS') { 
           setTimeout(() => {
               dispatch(closeSpinner());
@@ -87,7 +89,6 @@ const Convert = () => {
       if (status === 'FAILED') {
           dispatch(closeSpinner());
           dispatch(resetAccountStatus());
-          alert('Account Creation Failed');
       }
     }, [dispatch, status, accountList, rates])
   return (

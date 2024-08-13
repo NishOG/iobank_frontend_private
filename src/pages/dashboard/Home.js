@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Transaction from './Transaction'
-import { useSelector } from 'react-redux'
-import { accounts } from '../../features/accounts/accountSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { accounts, fetchAccounts } from '../../features/accounts/accountSlice'
 import Payment from './Payment'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const accountList = useSelector(accounts)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const navigateCurrency = (code) => {
     navigate(`/dashboard/accounts?currency=${code}`)
   }
+  useEffect(() => {
+    dispatch(fetchAccounts())
+  })
   return (
     <>
       <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto'>
@@ -29,7 +33,9 @@ const Home = () => {
         </div>
       </section>
       <Payment />
-      <Transaction />
+      <section>
+        <Transaction />
+      </section>
     </>
   )
 }

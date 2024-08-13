@@ -9,7 +9,7 @@ const Header = () => {
     navigate(path)
   }
   return (
-    <header className='fixed top-0 left-0 right-0 bg-white z-10 flex justify-between items-center p-3 lg:ml-250 pr-9 border-b-2'>
+    <header className='fixed top-0 left-0 right-0 bg-white z-20 flex justify-between items-center p-3 lg:ml-250 pr-9 border-b-2'>
         <h1 className='flex items-center text-gray-600 text-lg font-bold gap-1 p-1'>Welcome Isaiah <FaSmile  size={20} color='#ffbf56'/> </h1>
         <div className='flex items-center'>
             <button className='lg:hidden'><FaBars size={25} /></button>

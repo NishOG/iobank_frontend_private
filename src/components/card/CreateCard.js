@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { accounts } from '../../features/accounts/accountSlice'
 import { useNavigate } from 'react-router-dom'
-import { createCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
+import { card, createCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
 import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
 import Spinner from '../Spinner'
 
 const CreateCard = () => {
     const enablespinner = useSelector(showSpinner)
     const status = useSelector(fetchCardStatus)
+    const userCard = useSelector(card)
     const dispatch = useDispatch()
     const accountList = useSelector(accounts)
     const [usdAccount, setUsdAccount] = useState(null)
@@ -18,21 +19,8 @@ const CreateCard = () => {
     }
     useEffect(() => {
         setUsdAccount(accountList.filter(account => account.code === 'USD')[0])
-        if (status === 'SUCCESS') {
-            console.log('Printing out the status of the transzation ' + status)
-            setTimeout(() => {
-            dispatch(closeSpinner())
-            dispatch(resetCardStatus())
-            }, 3000)
-        }
-        if (status === 'FAILED') {
-            setTimeout(() => {
-            dispatch(closeSpinner())
-            dispatch(resetCardStatus())
-            }, 3000)
-        }
-    }, [accountList, status])
-    const CreateCardForm = () => {
+    }, [status])
+    const CreateCardForm = ( {status} ) => {
         const [amount, setAmount] = useState('')
         const setAmountValue = (e) => {
             setAmount(e.target.value)
@@ -41,6 +29,22 @@ const CreateCard = () => {
             dispatch(openSpinner())
             dispatch(createCard(amount))
         }
+        useEffect(() => {
+            setUsdAccount(accountList.filter(account => account.code === 'USD')[0])
+            if (status === 'SUCCESS') {
+                console.log('Printing out the status of the transzation ' + status)
+                setTimeout(() => {
+                dispatch(closeSpinner())
+                dispatch(resetCardStatus())
+                }, 3000)
+            }
+            if (status === 'FAILED') {
+                setTimeout(() => {
+                dispatch(closeSpinner())
+                dispatch(resetCardStatus())
+                }, 3000)
+            }
+        }, [status])
         return <>
             <p className='text-sm sm:text-[16px] text-center'>You'll Be charged a service fee of 1USD for this transaction and a minimum deposit of 1USD for card funding</p>
             <form className='p-2 pt-5 w-full rounded-xl sm:w-3/5 bg-white items-center flex flex-col justify-center h-full relative gap-4'>
@@ -57,7 +61,7 @@ const CreateCard = () => {
         </>
     }
   return ( <>
-      { usdAccount ? <CreateCardForm /> : <div className='flex flex-col gap-4'>
+      { (usdAccount && card) ? <CreateCardForm status={status}/> : <div className='flex flex-col gap-4'>
             <p className='text-sm text-center'>You Need To have a USD account, before creating a card.</p>
             <div className='p-2 w-full flex flex-col justify-between h-full relative'>
                 <button type='button' className='bg-blue-500 p-2 text-white hover:bg-blue-700' onClick={createUsdAccount}>Create One</button>
