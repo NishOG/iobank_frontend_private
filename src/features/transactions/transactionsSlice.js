@@ -36,6 +36,7 @@ export const transactionSlice = createSlice({
            .addCase(fetchTransactions.fulfilled, (state, action) => {
                 state.transactions = action.payload.sort((a, b) => {
                     const dateA = new Date(a.initiated)
+                    
                     const dateB = new Date(b.initiated)
                     return dateA - dateB
                 }) 

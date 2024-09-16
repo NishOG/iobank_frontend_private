@@ -67,7 +67,7 @@ const Convert = () => {
     }
     useEffect(() => {
         if(!rates) dispatch(getExchangeRate()) 
-        if(accountList.length < 1){ 
+        if(accountList.length < 1){
             dispatch(openSpinner())
         }
         else {
@@ -78,7 +78,7 @@ const Convert = () => {
             fromCurrency || setFromCurrency(accountList[0].code)
             toCurrency || setToCurrency(accountList[0].code)
         }
-    }, [dispatch])
+    }, [dispatch, accountList])
     useEffect(() => {
       if (status === 'SUCCESS') { 
           setTimeout(() => {

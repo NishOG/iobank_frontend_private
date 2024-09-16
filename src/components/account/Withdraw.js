@@ -21,8 +21,8 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   })
   const enableInputs = useMemo(() => recipient ? false : true, [recipient])
   const enableSpinner = useSelector(showSpinner)
-  const [code, setCode] = useState('USD')
   const [fromAccount, setFromAccount] = useState(accountList[0])
+  const [code, setCode] = useState(fromAccount.currency)
   const setAccount = (e) => {
     setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
     setCode(e.target.value)
