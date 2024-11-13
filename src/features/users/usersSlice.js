@@ -7,14 +7,17 @@ const initialState = {
     error: null
 }
 
-export const authenticateUser = createAsyncThunk("users/autheticate", async (userDetails) =>{
+export const authenticateUser = createAsyncThunk("user/autheticate", async (userDetails) =>{
          try{
-                const{data, headers, error} = await api.post('/users/auth', userDetails)
-                if(error) throw error;
+                const response = await api.post('/user/auth', userDetails)
+                const data = response.data
+                const headers = response.headers
+                const error = response.error
+                if(error) throw response.error;
                 const authorization = headers.authorization
-                console.log(authorization)
-                sessionStorage.setItem('access_token', headers.authorization)
-                sessionStorage.setItem('user', JSON.stringify(data))
+                sessionStorage.setItem('access_token', response.headers.authorization)
+                console.log(`response: ${JSON.stringify(response)}`)
+                sessionStorage.setItem('user', JSON.stringify(response.data))
                 return data
             } catch(err) {
                 console.log(err.message)
@@ -23,9 +26,9 @@ export const authenticateUser = createAsyncThunk("users/autheticate", async (use
     }
 )
 
-export const registerUser = createAsyncThunk("users/register", async (userDetails) => {
+export const registerUser = createAsyncThunk("user/register", async (userDetails) => {
     try{
-            const{data, error} = await api.post('/users/register', userDetails)
+            const{data, error} = await api.post('/user/register', userDetails)
             if(error) throw error;
             return data
         } catch(err) {

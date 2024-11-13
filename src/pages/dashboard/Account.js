@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Withdraw from '../../components/account/Withdraw'
 import NewAccount from '../../components/account/NewAccount'
 import AccountDetails from '../../components/account/AccountDetails'
+import SectionContainer from '../../components/SectionContainer'
 
 const Account = () => {
   const location = useLocation()
@@ -37,8 +38,7 @@ const Account = () => {
     <section>
       {showForm && <NewAccount setShowForm={setShowForm}/>}
       {showWithdrawForm && <Withdraw setShowWithdrawForm={setShowWithdrawForm}/>}
-      <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto items-center`}>
-        
+      <SectionContainer extraStyles={' overflow-x-auto items-center'}>
         <div className='w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <p className='font-bold text-gray-600 text-sm'>Balances ({accountList.length})</p>
           <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out' onClick={handleShowForm}><FaPlus /><span>Create New Account</span></button>
@@ -60,12 +60,11 @@ const Account = () => {
             <button onClick={() => setShowWithdrawForm(true)} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Withdraw</button>
             <button onClick={() => navigatePage('/dashboard/convert')} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white text-blue-500 flex items-center'><FaExchangeAlt /> Convert</button>
         </div></>}
-      </section>
+      </SectionContainer>
 
-
-      <section id='account-details-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl`}>
+      <SectionContainer extraStyles={currentPageStyle + ' sm:flex text-sm'}>
         {currentAccount && <AccountDetails currentAccount={currentAccount}/>}
-      </section>
+      </SectionContainer>
       <section className={`${currentPageStyle} sm:flex`}><Transaction /></section>
     </section>
   )

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { accounts, fetchAccounts } from '../../features/accounts/accountSlice'
 import Payment from './Payment'
 import { useNavigate } from 'react-router-dom'
+import SectionContainer from '../../components/SectionContainer'
 
 const Home = () => {
   const accountList = useSelector(accounts)
@@ -17,7 +18,7 @@ const Home = () => {
   }, [dispatch])
   return (
     <>
-      <section id='account-section' className='w-full flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl overflow-x-auto'>
+      <SectionContainer extraStyle={'overflow-x-auto'} >
         <p className='font-bold text-gray-600'>Accounts & Balances</p>
         <div className='flex flex-col sm:flex-row gap-6 sm:flex-wrap'>
           {
@@ -31,7 +32,7 @@ const Home = () => {
             </div>)
           }
         </div>
-      </section>
+      </SectionContainer>
       <Payment />
       <section>
         <Transaction />

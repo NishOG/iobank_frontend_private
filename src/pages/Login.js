@@ -5,10 +5,10 @@ import { authenticateUser, fetchStatus, resetStatus } from '../features/users/us
 import Spinner from '../components/Spinner';
 import { closeSpinner, openSpinner, showSpinner } from '../features/page/pageSlice';
 import { useNavigate } from 'react-router-dom';
+import InputComponent from '../components/InputComponent';
 
 const Login = () => {
   const status = useSelector(fetchStatus)
-  const [error, setError] = useState(false)
   const enableSpinner = useSelector(showSpinner)
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -31,13 +31,11 @@ const Login = () => {
     if (status === 'SUCCESS') {
       setTimeout(() => {
         dispatch(closeSpinner())
-        setError(false)
         navigate('/dashboard')
         dispatch(resetStatus())
       }, 3000)
     } else if (status === 'FAILED') {
       setTimeout(() => {
-        setError(true)
         dispatch(resetStatus())
         dispatch(closeSpinner())
       }, 3000)
@@ -52,31 +50,8 @@ const Login = () => {
             IO-BANK</h1>
           <form className="flex flex-col sm:min-w-500 flex-1 w-full gap-4 bg-white p-5 rounded-md">
               <h2>Login to your account</h2>
-              <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
-                  <label htmlFor="email" className='block'>Email</label>
-                  <input 
-                    placeholder='Enter Email Address' 
-                    type="email" id="email" 
-                    className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' 
-                    required 
-                    name='username'
-                    value={user.username}
-                    onChange={handleInputChange}
-                  />
-              </div>
-              <div className='flex flex-col gap-1 flex-1 w-full mt-2'>
-                  <label htmlFor="password" className='block w-full'>Password</label>
-                  <input 
-                    placeholder='Enter Password' 
-                    type="password" id="password" 
-                    className='flex w-full border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' 
-                    required 
-                    name='password'
-                    value={user.password}
-                    onChange={handleInputChange}
-                    />
-              </div>
-              
+              <InputComponent inputProp={{ name: user.username, type: "email", label: "Email", field: "username", placeholder: "Enter Your Email", handleInputChange }}/>
+              <InputComponent inputProp={{ name: user.password, type: "password", label: "Password", field: "password", placeholder: "Enter Your Password", handleInputChange }}/>
               <a className='underline text-blue-500 flex items-center' href='/'>Forgot Password <FaChevronRight /></a>
               <button disabled={!enableButton} onClick={login} type="button" className={`${disabledStyle} p-2 rounded-xl text-white font-bold mt-2 transition-all`}>LOGIN</button>
           </form>

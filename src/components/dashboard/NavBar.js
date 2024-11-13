@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FaApplePay, FaCreditCard, FaFileInvoiceDollar, FaHome, FaLandmark, FaPiggyBank, FaUser, FaWallet } from 'react-icons/fa'
 import { MdSettings } from 'react-icons/md'
+import { openNavbar } from '../../features/page/pageSlice'
+import { useSelector } from 'react-redux'
 
  
 const NavBar = () => {
   const location = useLocation()
+  const openNav = useSelector(openNavbar)
   const [currentPage, setCurrentPage] = useState(location.pathname.split('/')[2] || 'home')
   const currentPageStyle = 'bg-blue-400 text-white'
   const navigate = useNavigate()
@@ -30,7 +33,7 @@ const NavBar = () => {
     { path: '/dashboard/profile', icon: <FaUser />, label: 'Profile' }
   ]
   return (
-    <nav className='hidden fixed top-0 left-0 bottom-0 z-2 bg-white lg:flex flex-col w-250 border-l-2 gap-2 items-start border-r border-gray-300 shadow-xl'>
+    <nav className={`${!openNav ? 'hidden lg:flex' : 'block'}` + `hidden fixed top-0 left-0 bottom-0 z-50 bg-white lg:flex flex-col w-250 border-l-2 gap-2 items-start border-r border-gray-300 shadow-xl`}>
       <h1 className='text-xl font-bold w-full flex gap-2 items-center p-5 border-b border-gray-300 shadow-sm'>
             <FaPiggyBank size={40}/>
             IO-BANK

@@ -1,9 +1,10 @@
 import React from 'react'
 import { FaCreditCard, FaFileInvoiceDollar, FaMoneyBill } from 'react-icons/fa'
+import SectionContainer from '../../components/SectionContainer'
 
 const Payment = () => {
   return (
-    <section id='actions-section' className='w-full flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl'>
+    <SectionContainer>
         <p className='font-bold text-gray-600'>Quick Payments</p>
         <div className='flex flex-col sm:flex-row gap-6'>
           <div className='bg-gray-100 flex-1 flex flex-col gap-4 p-6 border border-gray-200 rounded-lg hover:border-blue-500 hover:cursor-pointer text-gray-600 flex'>
@@ -28,7 +29,7 @@ const Payment = () => {
               </div>
           </div>
         </div>
-      </section>
+      </SectionContainer>
   )
 }
 

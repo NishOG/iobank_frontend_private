@@ -11,7 +11,7 @@ import api from "../../api/api"
 export const createCard = createAsyncThunk("card/create", async (amount) => {
     try{
         const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
-        const {data, error} = await api.post(`/cards/create?amount=${amount}`, null, headers)
+        const {data, error} = await api.post(`/card/create?amount=${amount}`, null, headers)
         if(error) throw error;
         console.log(data)
         return data
@@ -22,7 +22,7 @@ export const createCard = createAsyncThunk("card/create", async (amount) => {
 export const creditCard = createAsyncThunk("card/credit", async (amount) => {
     try{
         const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
-        const {data, error} = await api.post(`/cards/credit?amount=${amount}`, null, headers)
+        const {data, error} = await api.post(`/card/credit?amount=${amount}`, null, headers)
         if(error) throw error;
         console.log(data)
         return data
@@ -34,7 +34,7 @@ export const creditCard = createAsyncThunk("card/credit", async (amount) => {
 export const debitCard = createAsyncThunk("card/debit", async (amount) => {
     try{
         const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
-        const {data, error} = await api.post(`/cards/debit?amount=${amount}`, null, headers)
+        const {data, error} = await api.post(`/card/debit?amount=${amount}`, null, headers)
         if(error) throw error;
         console.log(data)
         return data
@@ -46,7 +46,7 @@ export const debitCard = createAsyncThunk("card/debit", async (amount) => {
 export const fetchCard = createAsyncThunk("card/fetch", async () => {
     try{
         const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
-        const {data, error} = await api.get(`/cards`, headers)
+        const {data, error} = await api.get(`/card`, headers)
         if(error) throw error;
         console.log(data)
         return data
@@ -58,7 +58,7 @@ export const fetchCard = createAsyncThunk("card/fetch", async () => {
 export const deleteCard = createAsyncThunk("card/delete", async() => {
     try{
         const headers = {Authorization: `${sessionStorage.getItem('access_token')}`}
-        const {data, error} = await api.delete(`/cards`, headers)
+        const {data, error} = await api.delete(`/card`, headers)
         if(error) throw error;
         console.log(data)
         return data

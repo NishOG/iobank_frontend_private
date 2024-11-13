@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ["./src/**/*.js"],
   theme: {
     extend: {
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+      },
+      animation: {
+        'slide-in': 'slideIn 1s ease-out forwards',
+      },
       fontFamily: {
         roboto: ['Roboto', 'Arial', 'sans-serif']
       }, 
