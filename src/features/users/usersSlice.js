@@ -9,15 +9,13 @@ const initialState = {
 
 export const authenticateUser = createAsyncThunk("user/autheticate", async (userDetails) =>{
          try{
-                const response = await api.post('/user/auth', userDetails)
-                const data = response.data
-                const headers = response.headers
-                const error = response.error
-                if(error) throw response.error;
-                const authorization = headers.authorization
-                sessionStorage.setItem('access_token', response.headers.authorization)
-                console.log(`response: ${JSON.stringify(response)}`)
-                sessionStorage.setItem('user', JSON.stringify(response.data))
+                const {data, error, headers} = await api.post('/user/auth', userDetails)
+                if(error) throw error;
+                const { authorization } = headers
+                sessionStorage.setItem('access_token', authorization)
+                console.log(`authorization header: ${JSON.stringify(headers)}`)
+                console.log(`JWT token value ${authorization}`)
+                sessionStorage.setItem('user', JSON.stringify(data))
                 return data
             } catch(err) {
                 console.log(err.message)
@@ -27,7 +25,7 @@ export const authenticateUser = createAsyncThunk("user/autheticate", async (user
 )
 
 export const registerUser = createAsyncThunk("user/register", async (userDetails) => {
-    try{
+    try {
             const{data, error} = await api.post('/user/register', userDetails)
             if(error) throw error;
             return data

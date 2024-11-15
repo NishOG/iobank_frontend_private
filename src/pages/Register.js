@@ -72,10 +72,6 @@ const Register = () => {
               <div className='flex flex-col sm:flex-row gap-1 flex-1 w-full sm:gap-6'>
                 <InputComponent inputProp={{ name: user.firstname, type: "text", label: "Provide Firstname", field: "firstname", placeholder: "Julius", handleInputChange }}/>
                 <InputComponent inputProp={{ name: user.lastname, type: "text", label: "Provide Lastname", field: "lastname", placeholder: "Anderson", handleInputChange }}/>
-                {/* <div className='flex flex-col gap-1 flex-1 mt-2'>
-                    <label htmlFor="firstname" className='block'>Provide Firstname <span className={errorStyle('firstname')}>*</span></label>
-                    <input value={user.firstname} name='firstname' onChange={handleInputChange} placeholder='Julius' type="text" id="firstname" className='flex flex-1 border border-blue-500 p-3 rounded-md focus:border-yellow-400 leading-none' required />
-                </div>*/}
               </div>
               <InputComponent inputProp={{ name: user.username, type: "email", label: "Provide Email", field: "username", placeholder: "JuliAnderson@gmail.com", handleInputChange }}/>
               <InputComponent inputProp={{ name: user.tel, type: "number", label: "Provide Tel", field: "tel", placeholder: "+23513895083", handleInputChange }}/>
