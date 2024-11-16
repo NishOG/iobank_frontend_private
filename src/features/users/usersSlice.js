@@ -15,6 +15,7 @@ export const authenticateUser = createAsyncThunk("user/autheticate", async (user
                 sessionStorage.setItem('access_token', authorization)
                 console.log(`authorization header: ${JSON.stringify(headers)}`)
                 console.log(`JWT token value ${authorization}`)
+                console.log(`Data value ${data}`)
                 sessionStorage.setItem('user', JSON.stringify(data))
                 return data
             } catch(err) {
