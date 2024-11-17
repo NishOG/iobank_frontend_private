@@ -10,35 +10,34 @@ import { useNavigate } from 'react-router-dom'
 const Withdraw = ({ setShowWithdrawForm }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [amount, setAmount] = useState(0.00)
   const accountList = useSelector(accounts)
   const status = useSelector(fetchAccountStatus)
   const recipient = useSelector(fetchRecipient)
   const [transactionInfo, setTransactionInfo] = useState({
-    recipientAccountNumber: '',
+    accountNumber: '',
     amount: '',
-    code: 'USD',
+    currency: 'USD',
   })
   const enableInputs = useMemo(() => recipient ? false : true, [recipient])
   const enableSpinner = useSelector(showSpinner)
   const [fromAccount, setFromAccount] = useState(accountList[0])
+  const [code, setCode] = useState(fromAccount.currency)
   const setAccount = (e) => {
     setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
+    setCode(e.target.value)
   }
   const findRecipient = () => {
-    // const details = {...transactionInfo, code: code}
-    // console.log(transactionInfo.recipientAccountNumber)
+    const details = {...transactionInfo, currency: fromAccount.code}
     dispatch(openSpinner())
-    dispatch(fetchAccountHolder(transactionInfo))
+    dispatch(fetchAccountHolder(details))
   }
   const handleInputChange = (e) => {
-    setTransactionInfo({...transactionInfo, [e.target.name]: e.target.value})
-    if(e.target.name === "code") setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
-    if(e.target.name === "recipientAccountNumber") handleRecipientAccountChange(e)
-  }
-  const handleRecipientAccountChange = (e) => {
+    setTransactionInfo({...transactionInfo, accountNumber: e.target.value})
+    const details = {accountNumber: e.target.value, currency: fromAccount.code}
     if(e.target.value.toString().length === 10) {
       dispatch(openSpinner())
-      dispatch(fetchAccountHolder({ ...transactionInfo, recipientAccountNumber: e.target.value}))
+      dispatch(fetchAccountHolder(details))
     }
   }
   const closeWithdrawForm = () => {
@@ -46,16 +45,15 @@ const Withdraw = ({ setShowWithdrawForm }) => {
     setShowWithdrawForm(false)
   }
   const transfer = () => {
-    if(transactionInfo.amount > fromAccount.balance) {
+    if(amount > fromAccount.balance) {
       alert('Insufficient funds')
       return;
     }
-    console.log(JSON.stringify(transactionInfo))
+    const details = {amount: amount, recipientAccountNumber: recipient.accountNumber }
     dispatch(openSpinner())
-    dispatch(transferFunds(transactionInfo))
+    dispatch(transferFunds(details))
     dispatch(fetchAccounts())
-    setTimeout(() => closeWithdrawForm(), 3500)
-    
+    setShowWithdrawForm(false)
   }
   useEffect(() => {
     if (status === 'SUCCESS') {
@@ -63,15 +61,15 @@ const Withdraw = ({ setShowWithdrawForm }) => {
       setTimeout(() => {
         dispatch(closeSpinner())
         dispatch(resetAccountStatus())
-      }, 2000)
+      }, 3000)
     }
     if (status === 'FAILED') {
       setTimeout(() => {
         dispatch(closeSpinner())
         dispatch(resetAccountStatus())
-      }, 2000)
+      }, 3000)
     }
-  }, [dispatch, status])
+  }, [dispatch, status, accountList])
   return (
     <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 h-3/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto sm:h-[550px] mt-12'>
       <form className='p-2 w-full flex flex-col justify-between h-full relative'>
@@ -83,7 +81,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <label htmlFor='from' className='w-full flex justify-between'><span>Select Account </span><span className='text-sm mt-1'>Balance {fromAccount && fromAccount.symbol}{fromAccount && fromAccount.balance}</span></label>
-            <select id='from' name='code' value={transactionInfo.code} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md' onChange={handleInputChange}>
+            <select id='from' name='code' value={code} className='bg-gray-200 h-full p-2 lg:p-3 rounded-md' onChange={setAccount}>
                 {accountList.map(acc => (
                     <option key={acc.code} value={acc.code}>{acc.code}</option>
                 ))}
@@ -100,8 +98,8 @@ const Withdraw = ({ setShowWithdrawForm }) => {
             <div className='flex flex-1'>
               <input
                 type='number'
-                name='recipientAccountNumber'
-                value={transactionInfo.recipientAccountNumber}
+                name='accountNumber'
+                value={transactionInfo.accountNumber}
                 onChange={handleInputChange}
                 placeholder='100'
                 className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md'
@@ -114,11 +112,11 @@ const Withdraw = ({ setShowWithdrawForm }) => {
           </div>
           <div className='flex flex-col gap-2'>
             <label htmlFor='amount' className=''>Amount</label>
-            <input name="amount" id="amount" value={transactionInfo.amount} onChange={handleInputChange} disabled={enableInputs} type='number' placeholder='100' className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md' />
-            <p className='text-[12px] flex-1 w-full flex justify-end'>You'll be charged {`${fromAccount.symbol} ${transactionInfo.amount * 0.01}`}</p>
+            <input value={amount} onChange={(e) => setAmount(e.target.value)} disabled={enableInputs} type='number' placeholder='100' className='flex-1 p-2 lg:p-3 border-gray-200 border-2 rounded-md' />
+            <p className='text-[12px] flex-1 w-full flex justify-end'>You'll be charged {`${fromAccount.symbol} ${amount * 0.01}`}</p>
           </div>
         </div>
-        <button disabled={enableInputs && fromAccount && fromAccount.balance > transactionInfo.amount} value={transactionInfo.amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
+        <button disabled={enableInputs && fromAccount && fromAccount.balance > transactionInfo.amount} value={amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
       </form>
     </section>
   )

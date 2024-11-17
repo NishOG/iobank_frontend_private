@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaExchangeAlt, FaPlus } from 'react-icons/fa'
 import Transaction from './Transaction'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { accounts, resetAccountStatus } from '../../features/accounts/accountSlice'
+import { accounts, fetchAccounts, resetAccountStatus } from '../../features/accounts/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Withdraw from '../../components/account/Withdraw'
 import NewAccount from '../../components/account/NewAccount'
@@ -30,9 +30,10 @@ const Account = () => {
     setShowForm(true)
   }
   useEffect(() => {
+    dispatch(fetchAccounts())
     setCurrentAccount(accountList.filter((acc) => acc.code === currency)[0])
     dispatch(resetAccountStatus())
-  }, [currency, accountList])
+  }, [currency])
   const currentPageStyle = showForm || showWithdrawForm ? 'hidden' : 'flex';
   return (
     <section>
