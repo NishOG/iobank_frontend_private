@@ -111,7 +111,7 @@ export const accounsSlice = createSlice(
          .addCase(fetchAccounts.fulfilled, (state, action) => {
             state.status ='SUCCESS';
             const fetchedAccounts = action.payload;
-            const accounts = fetchedAccounts.map(acc => {
+            const newAccountList = fetchedAccounts.map(acc => {
               let flag = us
               if (acc.code === 'USD') flag = us
               if (acc.code === 'NGN') flag = ng
@@ -121,7 +121,7 @@ export const accounsSlice = createSlice(
               if (acc.code === 'CNY') flag = cn
               return {...acc, flag}
             })
-            state.accounts = accounts; 
+            state.accounts = newAccountList; 
           })
          .addCase(fetchAccounts.rejected, (state, action) => {
             state.status = 'FAILED';

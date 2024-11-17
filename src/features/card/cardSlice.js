@@ -99,7 +99,7 @@ export const cardSlicer = createSlice(
             .addCase(creditCard.fulfilled, (state, action) => {
                 console.log('Card Funding successful')
                 console.log(action.payload)
-                state.card = action.payload
+                state.transactions.push(action.payload)
                 state.status = 'SUCCESS'
             })
             .addCase(creditCard.rejected, (state) => {
@@ -112,7 +112,7 @@ export const cardSlicer = createSlice(
             .addCase(debitCard.fulfilled, (state, action) => {
                 console.log('Card Withdrawal successful')
                 console.log(action.payload)
-                state.card = action.payload
+                state.transaction.push(action.payload)
                 state.status = 'SUCCESS'
             })
             .addCase(debitCard.rejected, (state) => {

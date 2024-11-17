@@ -4,12 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { showSpinner, openSpinner, closeSpinner } from '../../features/page/pageSlice'
 import { accounts, fetchAccountHolder, fetchAccountStatus, fetchRecipient, resetRecipient, resetAccountStatus, transferFunds, fetchAccounts } from '../../features/accounts/accountSlice'
 import Spinner from '../Spinner'
-import { useNavigate } from 'react-router-dom'
 
 
 const Withdraw = ({ setShowWithdrawForm }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const accountList = useSelector(accounts)
   const status = useSelector(fetchAccountStatus)
   const recipient = useSelector(fetchRecipient)
@@ -21,12 +19,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   const enableInputs = useMemo(() => recipient ? false : true, [recipient])
   const enableSpinner = useSelector(showSpinner)
   const [fromAccount, setFromAccount] = useState(accountList[0])
-  const setAccount = (e) => {
-    setFromAccount(accountList.filter(acc => acc.code === e.target.value)[0])
-  }
   const findRecipient = () => {
-    // const details = {...transactionInfo, code: code}
-    // console.log(transactionInfo.recipientAccountNumber)
     dispatch(openSpinner())
     dispatch(fetchAccountHolder(transactionInfo))
   }

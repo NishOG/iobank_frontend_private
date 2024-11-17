@@ -10,7 +10,7 @@ const CardFundForm = ({ setShowFundCardForm }) => {
     const enableSpinner = useSelector(showSpinner)
     const dispatch = useDispatch()
     const accountList = useSelector(accounts)
-    const [account, setAccount] = useState(accountList.filter(acc => acc.code === 'USD')[0])
+    const [account, setAccount] = useState(null)
     const [amount, setAmount] = useState('')
     const status = useSelector(fetchCardStatus)
     const credit = () => {
@@ -19,6 +19,8 @@ const CardFundForm = ({ setShowFundCardForm }) => {
       setShowFundCardForm(false)
     }
     useEffect(() => {
+      setAccount(accountList.filter(acc => acc.code === "USD")[0])
+      console.log(`Length of the array ${accountList.length}`)
       if (status === 'SUCCESS') {
         console.log('Printing out the status of the transzation ' + status)
         setTimeout(() => {
@@ -33,7 +35,7 @@ const CardFundForm = ({ setShowFundCardForm }) => {
           alert("Card funding failed")
         }, 3000)
       }
-    }, [status])
+    }, [status, dispatch, accountList])
   return (
     <section className='flex flex-col p-2 gap-8 sm:w-3/5 xl:w-2/5 sm:p-6 sm:h-2/5 bg-white border rounded-xl absolute right-5  left-5 sm:left-auto  mt-12 z-10'>
       {account && <form className='p-2 w-full flex flex-col justify-between h-full relative gap-2'>

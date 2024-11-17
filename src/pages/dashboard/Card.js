@@ -4,24 +4,25 @@ import CardDetails from '../../components/card/CardDetails'
 import CardImage from '../../components/card/CardImage'
 import CardFundForm from '../../components/card/CardFundForm'
 import CardWithdrawForm from '../../components/card/CardWithdrawForm'
-import { accounts } from '../../features/accounts/accountSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import CreateCard from '../../components/card/CreateCard'
 import { card, fetchCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
 import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
 import Spinner from '../../components/Spinner'
+import { fetchAccounts } from '../../features/accounts/accountSlice'
 
 const Card = () => {
   const dispatch = useDispatch()
   const status = useSelector(fetchCardStatus)
   const enableSpinner = useSelector(showSpinner)
-  const accountList = useSelector(accounts)
   const userCard = useSelector(card)
   const [showFundCardForm, setShowFundCardForm] = useState(false)
   const [showWithdrawForm, setShowWithdrawForm] = useState(false)
   const currentPageStyle = showFundCardForm || showWithdrawForm ? 'hidden' : 'flex';
 
   useEffect(() => {
+
+    dispatch(fetchAccounts())
     dispatch(openSpinner())
     dispatch(fetchCard())
   }, [dispatch])
