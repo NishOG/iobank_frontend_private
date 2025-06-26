@@ -1,21 +1,22 @@
-import React, { useEffect } from 'react'
 import Transaction from './Transaction'
 import { useDispatch, useSelector } from 'react-redux'
 import { accounts, fetchAccounts } from '../../features/accounts/accountSlice'
 import Payment from './Payment'
 import { useNavigate } from 'react-router-dom'
 import SectionContainer from '../../components/SectionContainer'
+import { useEffect } from 'react'
 
 const Home = () => {
   const accountList = useSelector(accounts)
-  const dispatch = useDispatch()
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const navigateCurrency = (code) => {
     navigate(`/dashboard/accounts?currency=${code}`)
   }
   useEffect(() => {
     dispatch(fetchAccounts())
-  }, [dispatch])
+  }, [])
   return (
     <>
       <SectionContainer extraStyle={'overflow-x-auto'} >

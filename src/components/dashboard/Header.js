@@ -26,7 +26,6 @@ const Header = () => {
         <h1 className='flex items-center text-gray-600 text-lg font-bold gap-1 p-1'>Welcome {user.username} <FaSmile  size={20} color='#ffbf56'/> </h1>
         <div className='flex items-center'>
             {!openNav && <button className='lg:hidden' onClick={toggleNav}><FaBars size={25}/></button>}
-            {openNav && <button className='lg:hidden' onClick={toggleNav}><FaX size={25}/> </button>}
             <div className='hidden lg:flex gap-5'>
               <button onClick={() => navigatePage('/dashboard/convert')} className='text-blue-500 hover:text-blue-700 flex items-center text-xl transition duration-500 ease-in-out gap-1'>
                 <span>

@@ -13,14 +13,22 @@ const Convert = () => {
     const rates = useSelector(exchangeRates)
     const [rate, setRate] = useState('')
     const [isRotating, setIsRotating] = useState(false)
-    const [toCurrency, setToCurrency] = useState('')
-    const [fromCurrency, setFromCurrency] = useState('')
-    const [fromValue, setFromValue] = useState('')
+    const [transactionInfo, setTransactionInfo]  = useState({
+      fromCurrency: 'USD',
+      toCurrency: 'USD',
+      amount: 0.00
+    })
+
+    const handleInputChange = (e) => {
+      setTransactionInfo({...transactionInfo, [e.target.name]: e.target.value})
+    }
     const [fromAccount, setFromAccount] = useState(null)
     const navigate = useNavigate()
     const switchCurrencies = () => {
-        setFromCurrency(toCurrency)
-        setToCurrency(fromCurrency)
+      console.log('Switching.')
+      let fromCurrency = transactionInfo.fromCurrency
+      let toCurrency = transactionInfo.toCurrency
+      setTransactionInfo({...transactionInfo, fromCurrency: toCurrency, toCurrency: fromCurrency})
     }
     const getCurrentExchangeRate = () => {
       setIsRotating(true)
@@ -29,22 +37,22 @@ const Convert = () => {
     }
     const status = useSelector(fetchAccountStatus)
     const toValue = useMemo(() => {
-      if (!fromCurrency || !toCurrency || !rates || !rates[fromCurrency] || !rates[toCurrency]) {
+      if (!transactionInfo.fromCurrency || !transactionInfo.toCurrency || !rates || !rates[transactionInfo.fromCurrency] || !rates[transactionInfo.toCurrency]) {
         return '';
       }
-      const selectedAccount = accountList.filter(account => account.code === fromCurrency)[0]
+      const selectedAccount = accountList.filter(account => account.code === transactionInfo.fromCurrency)[0]
       setFromAccount(selectedAccount);
-      setRate(rates[toCurrency] / rates[fromCurrency]);
-      const convertedValue = (fromValue / rates[fromCurrency]) * rates[toCurrency];
+      setRate(rates[transactionInfo.toCurrency] / rates[transactionInfo.fromCurrency]);
+      const convertedValue = (transactionInfo.amount / rates[transactionInfo.fromCurrency]) * rates[transactionInfo.toCurrency];
       return convertedValue.toString().substring(0, 10)
-    }, [fromValue, fromCurrency, toCurrency, rates]);
+    }, [transactionInfo, rates]);
 
     const disableConvertButton = useMemo(() => {
-      if(fromCurrency === toCurrency || fromValue > fromAccount.balance || fromValue <= 0) {
+      if(transactionInfo.fromCurrency === transactionInfo.toCurrency || transactionInfo.amount > fromAccount.balance || transactionInfo.amount <= 0) {
         return true;
       }
       return false
-    }, [fromValue, fromCurrency, toCurrency])
+    }, [transactionInfo])
     
     const currencyOptions = accountList.map(acc => (
       <option key={acc.code} value={acc.code}>{acc.code}</option>
@@ -52,14 +60,8 @@ const Convert = () => {
     
     const convert = () => {
       dispatch(openSpinner())
-      const receivingAccount = accountList.filter(acc => acc.code === toCurrency)[0]
-      const details = {
-        sender: fromAccount.accountNumber,
-        receiver: receivingAccount.accountNumber,
-        amount: fromValue
-      }
-      console.log(JSON.stringify(details))
-      dispatch(convertCurrency(details))
+      console.log(JSON.stringify(transactionInfo))
+      dispatch(convertCurrency(transactionInfo))
       setTimeout(() => {
         dispatch(fetchAccounts())
         navigate('/dashboard')
@@ -71,12 +73,10 @@ const Convert = () => {
             dispatch(openSpinner())
         }
         else {
-            setTimeout(() => {
+          setTimeout(() => {
             dispatch(closeSpinner())
-            }, 2000)
-            fromAccount || setFromAccount(accountList[0])
-            fromCurrency || setFromCurrency(accountList[0].code)
-            toCurrency || setToCurrency(accountList[0].code)
+          }, 2000)
+          fromAccount || setFromAccount(accountList[0])
         }
     }, [dispatch, accountList])
     useEffect(() => {
@@ -99,25 +99,25 @@ const Convert = () => {
         <div className='flex flex-col gap-4 w-full flex-1 items-center justify-center'>
             <div className='border border-gray-300 rounded-md focus-within:border-gray-900 focus-within:border-2 relative'>
                 <label htmlFor='from' className='sr-only'>From</label>
-                <select id='from' value={fromCurrency} className='bg-gray-200 h-full p-2 lg:p-3 border-none focus:outline-none' onChange={(e) => setFromCurrency(e.target.value)}>
+                <select id='from' name='fromCurrency' value={transactionInfo.fromCurrency} className='bg-gray-200 h-full p-2 lg:p-3 border-none focus:outline-none' onChange={handleInputChange}>
                   {currencyOptions}
                 </select>
                 <p className='absolute right-5 top-1 text-[10px]'>Balance: {fromAccount && `${fromAccount.symbol}${fromAccount.balance}`}</p>
-                <label htmlFor='from' className='sr-only'>{fromCurrency}</label>
-                <input type='number' value={fromValue} onChange={(e) => setFromValue(e.target.value)} placeholder={1} className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
+                <label htmlFor='from' className='sr-only'>{transactionInfo.fromCurrency}</label>
+                <input type='number' name='amount' value={transactionInfo.amount} onChange={handleInputChange} placeholder={1} className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
             </div>
             <button onClick={switchCurrencies} type='button'><FaExchangeAlt className='text-blue-500 transform rotate-90' size={25}/></button>
             <div className='border border-gray-300 rounded-md focus-within:border-gray-700 focus-within:border-2'>
                 <label htmlFor='from' className='sr-only'>to</label>
-                <select id='from' value={toCurrency} className='bg-gray-200 h-full p-2 lg:p-3 border-none focus:outline-none' onChange={(e) => setToCurrency(e.target.value)}>
+                <select id='from' name='toCurrency' value={transactionInfo.toCurrency} className='bg-gray-200 h-full p-2 lg:p-3 border-none focus:outline-none' onChange={handleInputChange}>
                   {currencyOptions}
                 </select>
-                <label htmlFor='from' className='sr-only'>{toCurrency}</label>
-                <input disabled type='number' value={toValue} placeholder={rates && toCurrency && rates[toCurrency]/rates[fromCurrency]} className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
+                <label htmlFor='from' className='sr-only'>{transactionInfo.toCurrency}</label>
+                <input disabled type='number' value={toValue} placeholder={rates && transactionInfo.toCurrency && rates[transactionInfo.toCurrency]/rates[transactionInfo.fromCurrency]} className='p-2 lg:p-3 border-none active:border-none focus:outline-none' />
             </div>
-            {fromCurrency && toCurrency && rates && rates[toCurrency] && rates[fromCurrency] && (
+            {transactionInfo.fromCurrency && transactionInfo.toCurrency && rates && rates[transactionInfo.toCurrency] && rates[transactionInfo.fromCurrency] && (
               <div className='flex gap-2'>
-                <p>1 {fromCurrency} = {rate.toString().substring(0,9)} {toCurrency}</p>
+                <p>1 {transactionInfo.fromCurrency} = {rate.toString().substring(0,9)} {transactionInfo.toCurrency}</p>
                 <button type='button' onClick={getCurrentExchangeRate}><FaSync size={12} className={isRotating ? 'animate-spin' : ''}/></button>
               </div>
             )}

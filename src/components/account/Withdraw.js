@@ -18,7 +18,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
   })
   const enableInputs = useMemo(() => recipient ? false : true, [recipient])
   const enableSpinner = useSelector(showSpinner)
-  const [fromAccount, setFromAccount] = useState(accountList[0])
+  const [fromAccount, setFromAccount] = useState(accountList.filter(acc => acc.code === 'USD')[0])
   const findRecipient = () => {
     dispatch(openSpinner())
     dispatch(fetchAccountHolder(transactionInfo))
@@ -32,7 +32,9 @@ const Withdraw = ({ setShowWithdrawForm }) => {
     if(e.target.value.toString().length === 10) {
       dispatch(openSpinner())
       dispatch(fetchAccountHolder({ ...transactionInfo, recipientAccountNumber: e.target.value}))
+      return
     }
+    dispatch(resetRecipient())
   }
   const closeWithdrawForm = () => {
     dispatch(resetRecipient())
@@ -111,7 +113,7 @@ const Withdraw = ({ setShowWithdrawForm }) => {
             <p className='text-[12px] flex-1 w-full flex justify-end'>You'll be charged {`${fromAccount.symbol} ${transactionInfo.amount * 0.01}`}</p>
           </div>
         </div>
-        <button disabled={enableInputs && fromAccount && fromAccount.balance > transactionInfo.amount} value={transactionInfo.amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
+        <button disabled={transactionInfo.amount > fromAccount.balance || transactionInfo.amount <= 0} value={transactionInfo.amount} onClick={transfer} type="button" className='bg-blue-500 p-2 rounded-xl text-white font-bold mt-2  hover:bg-opacity-90 transition-all'>Withdraw</button>
       </form>
     </section>
   )

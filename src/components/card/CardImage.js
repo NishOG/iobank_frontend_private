@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { card } from '../../features/card/cardSlice'
 import { FaExchangeAlt, FaPlus } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 
-const CardImage = ({ setShowFundCardForm, setShowWithdrawForm }) => {
-    const userCard = useSelector(card)
+const CardImage = ({ setShowFundCardForm, setShowWithdrawForm, userCard }) => {
+    useEffect(() => {}, [userCard])
   return (
     <>
       <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>

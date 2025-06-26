@@ -27,6 +27,7 @@ const CardWithdrawForm = ({ setShowWithdrawForm }) => {
       }
       dispatch(openSpinner())
       dispatch(debitCard(amount))
+      dispatch(fetchAccounts())
       dispatch(fetchCard())
       setShowWithdrawForm(false)
     }
@@ -34,7 +35,6 @@ const CardWithdrawForm = ({ setShowWithdrawForm }) => {
       if (status === 'SUCCESS') {
         console.log('Printing out the status of the transzation ' + status)
         setTimeout(() => {
-          dispatch(fetchAccounts())
           dispatch(closeSpinner())
           dispatch(resetCardStatus())
         }, 3000)
@@ -43,7 +43,7 @@ const CardWithdrawForm = ({ setShowWithdrawForm }) => {
         setTimeout(() => {
           dispatch(closeSpinner())
           dispatch(resetCardStatus())
-          alert("Card funding failed")
+          alert("Card debit failed")
         }, 3000)
       }
     }, [status, dispatch])

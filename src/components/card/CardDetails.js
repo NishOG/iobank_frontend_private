@@ -14,7 +14,7 @@ const CardDetails = () => {
           <TextComponent textProp={{tag: `Issuer`, value: `IO BANK`}}/>
           <TextComponent textProp={{tag: `Card Type`, value: `Master Card`}}/>
           <TextComponent textProp={{tag: `Billing Address`, value: '8, Dexter Avenue P.O Box 10035'}}/>
-          {/* <TextComponent textProp={{tag: `Expiration Date`, value: userCard.exp.substring(2,7).replace('-', '/')}}/> */}
+          <TextComponent textProp={{tag: `Expiration Date`, value: userCard.exp.substring(2,7).replace('-', '/')}}/>
           <TextComponent textProp={{tag: `CVV`, value: userCard.cvv}}/>
         </div>
     </>

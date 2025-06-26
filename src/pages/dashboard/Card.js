@@ -6,9 +6,10 @@ import CardFundForm from '../../components/card/CardFundForm'
 import CardWithdrawForm from '../../components/card/CardWithdrawForm'
 import { useDispatch, useSelector } from 'react-redux'
 import CreateCard from '../../components/card/CreateCard'
-import { card, fetchCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
+import { card, creditCard, fetchCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
 import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
 import Spinner from '../../components/Spinner'
+import SectionContainer from '../../components/SectionContainer'
 import { fetchAccounts } from '../../features/accounts/accountSlice'
 
 const Card = () => {
@@ -20,39 +21,27 @@ const Card = () => {
   const [showWithdrawForm, setShowWithdrawForm] = useState(false)
   const currentPageStyle = showFundCardForm || showWithdrawForm ? 'hidden' : 'flex';
 
+  
   useEffect(() => {
-
-    dispatch(fetchAccounts())
-    dispatch(openSpinner())
-    dispatch(fetchCard())
-  }, [dispatch])
-  useEffect(() => {
-    if(status === 'SUCCESS'){
+    if(status === 'SUCCESS' || status === 'FAILED'){
       setTimeout(() => {
         dispatch(closeSpinner())
         dispatch(resetCardStatus())
       }, 1000)
     }
-    if(status === 'FAILED'){
-      setTimeout(() => {
-        dispatch(closeSpinner())
-      }, 1000)
-    }
   }, [dispatch, status])
-  return enableSpinner ? <Spinner /> : !enableSpinner && !userCard ? <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl items-center relative`}>
-        <CreateCard />
-      </section>
+  return enableSpinner ? <Spinner /> : !enableSpinner && !userCard ? <SectionContainer id='account-section' extraStyles={`${currentPageStyle} items-center`}><CreateCard /></SectionContainer>
        : 
       <>
-        {showFundCardForm && <CardFundForm setShowFundCardForm={setShowFundCardForm}/>}
-        {showWithdrawForm && <CardWithdrawForm  setShowWithdrawForm={setShowWithdrawForm}/>}
-        <section id='account-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-xl bg-white rounded-xl mt-12 p-6 gap-6 shadow-xl items-center`}>
-          {userCard.img && <CardImage  setShowFundCardForm={setShowFundCardForm}  setShowWithdrawForm={setShowWithdrawForm} />}
-        </section>
-        <section id='account-details-section' className={`${currentPageStyle} w-full sm:flex flex-col border border-gray-200 text-sm bg-white rounded-xl mt-12 p-6 shadow-xl`}>
+        {showFundCardForm && <CardFundForm userCard={userCard} setShowFundCardForm={setShowFundCardForm}/>}
+        {showWithdrawForm && <CardWithdrawForm userCard={userCard} setShowWithdrawForm={setShowWithdrawForm}/>}
+        <SectionContainer id='account-section' extraStyles={`${currentPageStyle} sm:flex items-center`}>
+          {userCard.img && <CardImage userCard={userCard} setShowFundCardForm={setShowFundCardForm}  setShowWithdrawForm={setShowWithdrawForm} />}
+        </SectionContainer>
+        <SectionContainer extraStyles={`${currentPageStyle} sm:flex `}>
           <CardDetails />
-        </section>
-        {showFundCardForm || showWithdrawForm ||<Transaction />}
+        </SectionContainer>
+        {showFundCardForm || showWithdrawForm || <Transaction />}
       </>
    
 }

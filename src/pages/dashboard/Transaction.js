@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react'
-import { fetchTransactions, fetchTransactionStatus, fetchTransactionsList } from '../../features/transactions/transactionsSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import {fetchTransactionsList } from '../../features/transactions/transactionsSlice'
+import { useSelector } from 'react-redux'
 import SectionContainer from '../../components/SectionContainer'
 
 const Transaction = () => {
-  const dispatch = useDispatch()
   const transactions = useSelector(fetchTransactionsList)
-  const status = useSelector(fetchTransactionStatus)
   const TdItem = ({ content, extraStyle }) => {
     return <td className={`flex flex-1 justify-center text-[12px] ${extraStyle || ''}`}>{content}</td>
   }
@@ -27,9 +25,6 @@ const Transaction = () => {
       </tr>
     )
   }
-  useEffect(() => {
-    dispatch(fetchTransactions(0))
-  }, [dispatch])
   return (
     <SectionContainer extraStyles={'overflow-x-auto'} >
       <p className='font-bold text-gray-600 text-sm'>Recent Transactions</p>

@@ -1,59 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import { FaExchangeAlt, FaPlus } from 'react-icons/fa'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { accounts, resetAccountStatus } from '../../features/accounts/accountSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import SectionContainer from '../../components/SectionContainer'
+import React from 'react'
+import {fetchTransactionList } from '../../features/transaction/transactionsSlice'
+import { useSelector } from 'react-redux'
+import SectionContainer from '../../component/SectionContainer'
 
-const Account = () => {
-  const location = useLocation()
-  const currencyParams = new URLSearchParams(location.search)
-  const accountList = useSelector(accounts)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const currency = currencyParams.get('currency') || accountList.length > 0 && accountList[0].code
-  const currentTabStyle = 'bg-white '
-  const [currentAccount, setCurrentAccount] = useState(null)
-  const navigateCurrency = (code) => {
-    navigate(`/dashboard/accounts?currency=${code}`)
+const Transaction = () => {
+  const transactions = useSelector(fetchTransactionList)
+  const TdItem = ({ content, extraStyle }) => {
+    return <td className={`flex flex-1 justify-center text-[12px] ${extraStyle || ''}`}>{content}</td>
   }
-  const navigatePage = (path) => {
-    navigate(path)
+  const ThItem = ({ content }) => {
+    return <th className='flex justify-center flex-1 text-[12px] '>{content}</th>
   }
-  const [showCreateAccountForm, setShowCreateAccountForm] = useState(false)
-  const [showWithdrawForm, setShowWithdrawForm] = useState(false)
-  useEffect(() => {
-    setCurrentAccount(accountList.filter((acc) => acc.code === currency)[0])
-    dispatch(resetAccountStatus())
-  }, [currency, accountList])
-  const currentPageStyle = showCreateAccountForm || showWithdrawForm ? 'hidden' : 'flex';
+  const TransactionItem = ({ transaction }) => {
+    return (
+      <tr key={transaction.id} className='flex w-full justify-between p-2 pl-6 pr-6'>
+        <TdItem content={transaction.createdAt.substring(0,10)}></TdItem>
+        <TdItem extraStyle={`text-center`} content={transaction.description}></TdItem>
+        <TdItem content={transaction.amount}></TdItem>
+        <TdItem content={transaction.type}></TdItem>
+        <TdItem content={transaction.status}></TdItem>
+        <TdItem content={<button className='text-blue-500 hover:text-blue-900 flex items-center text-sm transition duration-500 ease-in-out'>See More
+          </button>}>
+        </TdItem>
+      </tr>
+    )
+  }
   return (
-    <section>
-      {/* {showCreateAccountForm && <NewAccount setShowCreateAccountForm={setShowCreateAccountForm}/>} */}
-      {/* {showWithdrawForm && <Withdraw setShowWithdrawForm={setShowWithdrawForm}/>} */}
-      <SectionContainer extraStyles={' overflow-x-auto items-center'}>
-        <div className='w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
-          <p className='font-bold text-gray-600 text-sm'>Balances ({accountList.length})</p>
-          <button className='flex items-center gap-2 bg-blue-500 text-sm text-white p-3 rounded-md  hover:bg-blue-900 transition duration-500 ease-in-out' onClick={() => setShowCreateAccountForm(false)}><FaPlus /><span>Create New Account</span></button>
+    <SectionContainer extraStyles={'overflow-x-auto'} >
+      <p className='font-bold text-gray-600 text-sm'>Recent Transactions</p>
+        <div className='flex flex-col gap-4 w-screen overflow-x-auto sm:w-full'>
+          <table className='flex gap-4 flex-col w-full items-space min-w-500'>
+            <thead className='flex w-full'>
+              <tr className='flex w-full bg-gray-200 p-2 pl-6 pr-6 justify-between rounded-md'>
+                <ThItem content={'Date'}></ThItem>
+                <ThItem content={'Description'}></ThItem>
+                <ThItem content={'Amount'}></ThItem>
+                <ThItem content={'Type'}></ThItem>
+                <ThItem content={'Status'}></ThItem>
+                <ThItem content={'Info'}></ThItem>
+              </tr>
+            </thead>
+            <tbody className='flex w-full flex-col'>
+              {transactions.map((transaction) => <TransactionItem key={transaction.txId} transaction={transaction} />)}
+            </tbody>
+          </table>
         </div>
-        
-        {accountList.length > 0 && <div className='flex flex-col sm:flex-row sm:flex-wrap justify-center'>
-          <div className='text-sm sm:text-xl p-2 bg-gray-200 bg-gray-200 rounded-xl flex gap-2'>
-            {accountList.map((acc, id) => <button key={id} className={`p-2 rounded-lg pt-2 pb-2 hover:bg-white ${currency === acc.code ?  currentTabStyle : ''} `}onClick={() => navigateCurrency(acc.code)}>{acc.code}</button>)}
-          </div>
-        </div>}
-        {currentAccount && <><div className='flex flex-col items-center object-cover gap-5 justify-center'>
-          <img src={currentAccount.flag} className='w-30 h-10 rounded-md'/>
-          <p className='text-2xl font-bold text-gray-400'>Available Balance</p>
-          <p className='text-3xl font-bold text-gray-600 p-2'>{`${currentAccount.symbol} ${currentAccount.balance.toString().substring(0,8)}`}</p>
-        </div>
-        
-        <div className='text-sm sm:text-xl p-2 rounded-xl flex gap-2'>
-            <button className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Deposit</button>
-            <button onClick={() => setShowWithdrawForm(true)} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white'>Withdraw</button>
-            <button onClick={() => navigatePage('/dashboard/convert')} className='p-2 rounded-xl bg-gray-50 hover:bg-gray-200 pt-2 pb-2 hover:bg-white text-blue-500 flex items-center'><FaExchangeAlt /> Convert</button>
-        </div></>}
-      </SectionContainer>
-      </section>
+    </SectionContainer>
   )
 }
+
+export default Transaction

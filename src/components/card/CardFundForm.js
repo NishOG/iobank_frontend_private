@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { accounts } from '../../features/accounts/accountSlice'
-import { creditCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
+import { accounts, fetchAccounts } from '../../features/accounts/accountSlice'
+import { creditCard, fetchCard, fetchCardStatus, resetCardStatus } from '../../features/card/cardSlice'
 import { closeSpinner, openSpinner, showSpinner } from '../../features/page/pageSlice'
 import Spinner from '../Spinner'
 
@@ -16,8 +16,13 @@ const CardFundForm = ({ setShowFundCardForm }) => {
     const credit = () => {
       dispatch(openSpinner())
       dispatch(creditCard(amount))
+      setTimeout(() => {
+        dispatch(fetchCard())
+        dispatch(fetchAccounts())
+      }, 1000)
       setShowFundCardForm(false)
     }
+  
     useEffect(() => {
       setAccount(accountList.filter(acc => acc.code === "USD")[0])
       console.log(`Length of the array ${accountList.length}`)

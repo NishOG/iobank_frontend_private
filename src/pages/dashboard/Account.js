@@ -15,7 +15,7 @@ const Account = () => {
   const accountList = useSelector(accounts)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const currency = currencyParams.get('currency') || accountList.length > 0 && accountList[0].code
+  const currency = currencyParams.get('currency') || (accountList.length > 0 && accountList[0].code)
   const currentTabStyle = 'bg-white '
   const [currentAccount, setCurrentAccount] = useState(null)
   const navigateCurrency = (code) => {
@@ -30,10 +30,12 @@ const Account = () => {
     setShowForm(true)
   }
   useEffect(() => {
-    dispatch(fetchAccounts())
     setCurrentAccount(accountList.filter((acc) => acc.code === currency)[0])
     dispatch(resetAccountStatus())
-  }, [currency])
+  }, [currency, accountList])
+  useEffect(() => {
+    dispatch(fetchAccounts())
+  }, [])
   const currentPageStyle = showForm || showWithdrawForm ? 'hidden' : 'flex';
   return (
     <section>
